@@ -1,0 +1,586 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6F8A8D2B1CB78E31002B43EF /* LFPagingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D2A1CB78E31002B43EF /* LFPagingController.swift */; };
+		6F8A8D2D1CB78E5C002B43EF /* LFMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D2C1CB78E5C002B43EF /* LFMath.swift */; };
+		6F8A8D301CB78F93002B43EF /* PinnedPlaylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D2F1CB78F93002B43EF /* PinnedPlaylistsViewController.swift */; };
+		6F8A8D321CB78F9D002B43EF /* PinnedPlaylistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D311CB78F9D002B43EF /* PinnedPlaylistsView.swift */; };
+		6F8A8D371CB791EF002B43EF /* NeedHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D361CB791EF002B43EF /* NeedHelpView.swift */; };
+		6F8A8D3A1CB79254002B43EF /* NeedHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D391CB79254002B43EF /* NeedHelpViewController.swift */; };
+		6F8A8D3C1CB79380002B43EF /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D3B1CB79380002B43EF /* UIColorExtensions.swift */; };
+		6F8A8D3E1CB81489002B43EF /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D3D1CB81489002B43EF /* PlaylistTableViewCell.swift */; };
+		6F8A8D3F1CB8287B002B43EF /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0F31CB1F28800F6CEEC /* Shared.swift */; };
+		6F8A8D411CB829D5002B43EF /* LaunchifyPlaylistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D401CB829D5002B43EF /* LaunchifyPlaylistManager.swift */; };
+		6F8A8D431CB9580A002B43EF /* PinnedPlaylistShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D421CB9580A002B43EF /* PinnedPlaylistShowTableViewCell.swift */; };
+		6FF5A0C51CB1B4B400F6CEEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0C41CB1B4B400F6CEEC /* AppDelegate.swift */; };
+		6FF5A0C71CB1B4B400F6CEEC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0C61CB1B4B400F6CEEC /* MainViewController.swift */; };
+		6FF5A0C91CB1B4B400F6CEEC /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0C81CB1B4B400F6CEEC /* MainView.swift */; };
+		6FF5A0CD1CB1B4B400F6CEEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FF5A0CC1CB1B4B400F6CEEC /* Assets.xcassets */; };
+		6FF5A0D01CB1B4B400F6CEEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FF5A0CE1CB1B4B400F6CEEC /* LaunchScreen.storyboard */; };
+		6FF5A0D71CB1B59600F6CEEC /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0D61CB1B59600F6CEEC /* UIViewExtensions.swift */; };
+		6FF5A0DF1CB1B8D300F6CEEC /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF5A0DE1CB1B8D300F6CEEC /* NotificationCenter.framework */; };
+		6FF5A0E21CB1B8D300F6CEEC /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0E11CB1B8D300F6CEEC /* TodayViewController.swift */; };
+		6FF5A0E91CB1B8D300F6CEEC /* LaunchifyTodayExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 6FF5A0DC1CB1B8D300F6CEEC /* LaunchifyTodayExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		6FF5A0EF1CB1B91F00F6CEEC /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0EE1CB1B91F00F6CEEC /* TodayView.swift */; };
+		6FF5A0F01CB1B95A00F6CEEC /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0D61CB1B59600F6CEEC /* UIViewExtensions.swift */; };
+		6FF5A0F41CB1F28800F6CEEC /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0F31CB1F28800F6CEEC /* Shared.swift */; };
+		6FF5A10F1CB24AD500F6CEEC /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF5A10E1CB24AD500F6CEEC /* Spotify.framework */; };
+		6FF5A1111CB24BA300F6CEEC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF5A1101CB24BA300F6CEEC /* SystemConfiguration.framework */; };
+		6FF5A1151CB2567A00F6CEEC /* PagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A1141CB2567A00F6CEEC /* PagingViewController.swift */; };
+		6FF5A1171CB256CA00F6CEEC /* PagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A1161CB256CA00F6CEEC /* PagingView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6FF5A0E71CB1B8D300F6CEEC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6FF5A0B91CB1B4B400F6CEEC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6FF5A0DB1CB1B8D300F6CEEC;
+			remoteInfo = LaunchifyTodayExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6FF5A0ED1CB1B8D300F6CEEC /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				6FF5A0E91CB1B8D300F6CEEC /* LaunchifyTodayExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		6F8A8D2A1CB78E31002B43EF /* LFPagingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LFPagingController.swift; sourceTree = "<group>"; };
+		6F8A8D2C1CB78E5C002B43EF /* LFMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LFMath.swift; sourceTree = "<group>"; };
+		6F8A8D2F1CB78F93002B43EF /* PinnedPlaylistsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinnedPlaylistsViewController.swift; sourceTree = "<group>"; };
+		6F8A8D311CB78F9D002B43EF /* PinnedPlaylistsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinnedPlaylistsView.swift; sourceTree = "<group>"; };
+		6F8A8D361CB791EF002B43EF /* NeedHelpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeedHelpView.swift; sourceTree = "<group>"; };
+		6F8A8D391CB79254002B43EF /* NeedHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeedHelpViewController.swift; sourceTree = "<group>"; };
+		6F8A8D3B1CB79380002B43EF /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
+		6F8A8D3D1CB81489002B43EF /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
+		6F8A8D401CB829D5002B43EF /* LaunchifyPlaylistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchifyPlaylistManager.swift; sourceTree = "<group>"; };
+		6F8A8D421CB9580A002B43EF /* PinnedPlaylistShowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinnedPlaylistShowTableViewCell.swift; sourceTree = "<group>"; };
+		6FF5A0C11CB1B4B400F6CEEC /* Launchify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Launchify.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FF5A0C41CB1B4B400F6CEEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6FF5A0C61CB1B4B400F6CEEC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		6FF5A0C81CB1B4B400F6CEEC /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		6FF5A0CA1CB1B4B400F6CEEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6FF5A0CC1CB1B4B400F6CEEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6FF5A0CF1CB1B4B400F6CEEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6FF5A0D61CB1B59600F6CEEC /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		6FF5A0DC1CB1B8D300F6CEEC /* LaunchifyTodayExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LaunchifyTodayExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FF5A0DE1CB1B8D300F6CEEC /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		6FF5A0E11CB1B8D300F6CEEC /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		6FF5A0E61CB1B8D300F6CEEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6FF5A0EE1CB1B91F00F6CEEC /* TodayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		6FF5A0F11CB1C24100F6CEEC /* Launchify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Launchify.entitlements; sourceTree = "<group>"; };
+		6FF5A0F21CB1F21F00F6CEEC /* LaunchifyTodayExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = LaunchifyTodayExtension.entitlements; sourceTree = "<group>"; };
+		6FF5A0F31CB1F28800F6CEEC /* Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
+		6FF5A10E1CB24AD500F6CEEC /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
+		6FF5A1101CB24BA300F6CEEC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6FF5A1121CB24D9E00F6CEEC /* Launchify-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Launchify-Bridging-Header.h"; sourceTree = "<group>"; };
+		6FF5A1141CB2567A00F6CEEC /* PagingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingViewController.swift; sourceTree = "<group>"; };
+		6FF5A1161CB256CA00F6CEEC /* PagingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6FF5A0BE1CB1B4B400F6CEEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FF5A1111CB24BA300F6CEEC /* SystemConfiguration.framework in Frameworks */,
+				6FF5A10F1CB24AD500F6CEEC /* Spotify.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FF5A0D91CB1B8D300F6CEEC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FF5A0DF1CB1B8D300F6CEEC /* NotificationCenter.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6F8A8D2E1CB78ECC002B43EF /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Controls;
+			sourceTree = "<group>";
+		};
+		6F8A8D331CB7916F002B43EF /* Paging */ = {
+			isa = PBXGroup;
+			children = (
+				6F8A8D2A1CB78E31002B43EF /* LFPagingController.swift */,
+				6FF5A1141CB2567A00F6CEEC /* PagingViewController.swift */,
+				6FF5A1161CB256CA00F6CEEC /* PagingView.swift */,
+			);
+			name = Paging;
+			sourceTree = "<group>";
+		};
+		6F8A8D341CB79192002B43EF /* Pinned Playlists */ = {
+			isa = PBXGroup;
+			children = (
+				6F8A8D2F1CB78F93002B43EF /* PinnedPlaylistsViewController.swift */,
+				6F8A8D311CB78F9D002B43EF /* PinnedPlaylistsView.swift */,
+				6F8A8D3D1CB81489002B43EF /* PlaylistTableViewCell.swift */,
+				6F8A8D421CB9580A002B43EF /* PinnedPlaylistShowTableViewCell.swift */,
+			);
+			name = "Pinned Playlists";
+			sourceTree = "<group>";
+		};
+		6F8A8D351CB791A4002B43EF /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				6FF5A0C61CB1B4B400F6CEEC /* MainViewController.swift */,
+				6FF5A0C81CB1B4B400F6CEEC /* MainView.swift */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		6F8A8D381CB791F7002B43EF /* Need Help */ = {
+			isa = PBXGroup;
+			children = (
+				6F8A8D391CB79254002B43EF /* NeedHelpViewController.swift */,
+				6F8A8D361CB791EF002B43EF /* NeedHelpView.swift */,
+			);
+			name = "Need Help";
+			sourceTree = "<group>";
+		};
+		6FF5A0B81CB1B4B400F6CEEC = {
+			isa = PBXGroup;
+			children = (
+				6FF5A0C31CB1B4B400F6CEEC /* Launchify */,
+				6FF5A0E01CB1B8D300F6CEEC /* LaunchifyTodayExtension */,
+				6FF5A0DD1CB1B8D300F6CEEC /* Frameworks */,
+				6FF5A0C21CB1B4B400F6CEEC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6FF5A0C21CB1B4B400F6CEEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6FF5A0C11CB1B4B400F6CEEC /* Launchify.app */,
+				6FF5A0DC1CB1B8D300F6CEEC /* LaunchifyTodayExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6FF5A0C31CB1B4B400F6CEEC /* Launchify */ = {
+			isa = PBXGroup;
+			children = (
+				6FF5A0C41CB1B4B400F6CEEC /* AppDelegate.swift */,
+				6F8A8D401CB829D5002B43EF /* LaunchifyPlaylistManager.swift */,
+				6F8A8D351CB791A4002B43EF /* Login */,
+				6F8A8D331CB7916F002B43EF /* Paging */,
+				6F8A8D341CB79192002B43EF /* Pinned Playlists */,
+				6F8A8D381CB791F7002B43EF /* Need Help */,
+				6F8A8D2E1CB78ECC002B43EF /* Controls */,
+				6FF5A1131CB251F300F6CEEC /* Helpers */,
+				6FF5A0CA1CB1B4B400F6CEEC /* Info.plist */,
+				6FF5A0CC1CB1B4B400F6CEEC /* Assets.xcassets */,
+				6FF5A0CE1CB1B4B400F6CEEC /* LaunchScreen.storyboard */,
+				6FF5A0F11CB1C24100F6CEEC /* Launchify.entitlements */,
+			);
+			path = Launchify;
+			sourceTree = "<group>";
+		};
+		6FF5A0DD1CB1B8D300F6CEEC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6FF5A1101CB24BA300F6CEEC /* SystemConfiguration.framework */,
+				6FF5A10E1CB24AD500F6CEEC /* Spotify.framework */,
+				6FF5A0DE1CB1B8D300F6CEEC /* NotificationCenter.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6FF5A0E01CB1B8D300F6CEEC /* LaunchifyTodayExtension */ = {
+			isa = PBXGroup;
+			children = (
+				6FF5A0E11CB1B8D300F6CEEC /* TodayViewController.swift */,
+				6FF5A0EE1CB1B91F00F6CEEC /* TodayView.swift */,
+				6FF5A0E61CB1B8D300F6CEEC /* Info.plist */,
+				6FF5A0F21CB1F21F00F6CEEC /* LaunchifyTodayExtension.entitlements */,
+			);
+			path = LaunchifyTodayExtension;
+			sourceTree = "<group>";
+		};
+		6FF5A1131CB251F300F6CEEC /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				6FF5A1121CB24D9E00F6CEEC /* Launchify-Bridging-Header.h */,
+				6FF5A0D61CB1B59600F6CEEC /* UIViewExtensions.swift */,
+				6F8A8D2C1CB78E5C002B43EF /* LFMath.swift */,
+				6F8A8D3B1CB79380002B43EF /* UIColorExtensions.swift */,
+				6FF5A0F31CB1F28800F6CEEC /* Shared.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6FF5A0C01CB1B4B400F6CEEC /* Launchify */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FF5A0D31CB1B4B400F6CEEC /* Build configuration list for PBXNativeTarget "Launchify" */;
+			buildPhases = (
+				6FF5A0BD1CB1B4B400F6CEEC /* Sources */,
+				6FF5A0BE1CB1B4B400F6CEEC /* Frameworks */,
+				6FF5A0BF1CB1B4B400F6CEEC /* Resources */,
+				6FF5A0ED1CB1B8D300F6CEEC /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6FF5A0E81CB1B8D300F6CEEC /* PBXTargetDependency */,
+			);
+			name = Launchify;
+			productName = Launchify;
+			productReference = 6FF5A0C11CB1B4B400F6CEEC /* Launchify.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6FF5A0DB1CB1B8D300F6CEEC /* LaunchifyTodayExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6FF5A0EA1CB1B8D300F6CEEC /* Build configuration list for PBXNativeTarget "LaunchifyTodayExtension" */;
+			buildPhases = (
+				6FF5A0D81CB1B8D300F6CEEC /* Sources */,
+				6FF5A0D91CB1B8D300F6CEEC /* Frameworks */,
+				6FF5A0DA1CB1B8D300F6CEEC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LaunchifyTodayExtension;
+			productName = LaunchifyTodayExtension;
+			productReference = 6FF5A0DC1CB1B8D300F6CEEC /* LaunchifyTodayExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6FF5A0B91CB1B4B400F6CEEC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = "Clay Ellis";
+				TargetAttributes = {
+					6FF5A0C01CB1B4B400F6CEEC = {
+						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 4Z58733BBB;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+					6FF5A0DB1CB1B8D300F6CEEC = {
+						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = 4Z58733BBB;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 6FF5A0BC1CB1B4B400F6CEEC /* Build configuration list for PBXProject "Launchify" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6FF5A0B81CB1B4B400F6CEEC;
+			productRefGroup = 6FF5A0C21CB1B4B400F6CEEC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6FF5A0C01CB1B4B400F6CEEC /* Launchify */,
+				6FF5A0DB1CB1B8D300F6CEEC /* LaunchifyTodayExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6FF5A0BF1CB1B4B400F6CEEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FF5A0D01CB1B4B400F6CEEC /* LaunchScreen.storyboard in Resources */,
+				6FF5A0CD1CB1B4B400F6CEEC /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FF5A0DA1CB1B8D300F6CEEC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6FF5A0BD1CB1B4B400F6CEEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FF5A0C51CB1B4B400F6CEEC /* AppDelegate.swift in Sources */,
+				6F8A8D3C1CB79380002B43EF /* UIColorExtensions.swift in Sources */,
+				6FF5A0F41CB1F28800F6CEEC /* Shared.swift in Sources */,
+				6F8A8D301CB78F93002B43EF /* PinnedPlaylistsViewController.swift in Sources */,
+				6F8A8D3A1CB79254002B43EF /* NeedHelpViewController.swift in Sources */,
+				6F8A8D431CB9580A002B43EF /* PinnedPlaylistShowTableViewCell.swift in Sources */,
+				6F8A8D3E1CB81489002B43EF /* PlaylistTableViewCell.swift in Sources */,
+				6FF5A0C91CB1B4B400F6CEEC /* MainView.swift in Sources */,
+				6FF5A1171CB256CA00F6CEEC /* PagingView.swift in Sources */,
+				6F8A8D321CB78F9D002B43EF /* PinnedPlaylistsView.swift in Sources */,
+				6F8A8D411CB829D5002B43EF /* LaunchifyPlaylistManager.swift in Sources */,
+				6FF5A0D71CB1B59600F6CEEC /* UIViewExtensions.swift in Sources */,
+				6F8A8D2D1CB78E5C002B43EF /* LFMath.swift in Sources */,
+				6FF5A1151CB2567A00F6CEEC /* PagingViewController.swift in Sources */,
+				6F8A8D371CB791EF002B43EF /* NeedHelpView.swift in Sources */,
+				6FF5A0C71CB1B4B400F6CEEC /* MainViewController.swift in Sources */,
+				6F8A8D2B1CB78E31002B43EF /* LFPagingController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6FF5A0D81CB1B8D300F6CEEC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6FF5A0EF1CB1B91F00F6CEEC /* TodayView.swift in Sources */,
+				6FF5A0F01CB1B95A00F6CEEC /* UIViewExtensions.swift in Sources */,
+				6F8A8D3F1CB8287B002B43EF /* Shared.swift in Sources */,
+				6FF5A0E21CB1B8D300F6CEEC /* TodayViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6FF5A0E81CB1B8D300F6CEEC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6FF5A0DB1CB1B8D300F6CEEC /* LaunchifyTodayExtension */;
+			targetProxy = 6FF5A0E71CB1B8D300F6CEEC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6FF5A0CE1CB1B4B400F6CEEC /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6FF5A0CF1CB1B4B400F6CEEC /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6FF5A0D11CB1B4B400F6CEEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"~/Frameworks/Release-universal\"";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6FF5A0D21CB1B4B400F6CEEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"~/Frameworks/Release-universal\"";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6FF5A0D41CB1B4B400F6CEEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Launchify/Launchify.entitlements;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Spotify.framework/Headers";
+				INFOPLIST_FILE = Launchify/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = clayellis.Launchify;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Launchify/Launchify-Bridging-Header.h";
+			};
+			name = Debug;
+		};
+		6FF5A0D51CB1B4B400F6CEEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Launchify/Launchify.entitlements;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Spotify.framework/Headers";
+				INFOPLIST_FILE = Launchify/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = clayellis.Launchify;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Launchify/Launchify-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		6FF5A0EB1CB1B8D300F6CEEC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LaunchifyTodayExtension/LaunchifyTodayExtension.entitlements;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = LaunchifyTodayExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = clayellis.Launchify.LaunchifyTodayExtension;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		6FF5A0EC1CB1B8D300F6CEEC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = LaunchifyTodayExtension/LaunchifyTodayExtension.entitlements;
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
+				INFOPLIST_FILE = LaunchifyTodayExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = clayellis.Launchify.LaunchifyTodayExtension;
+				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6FF5A0BC1CB1B4B400F6CEEC /* Build configuration list for PBXProject "Launchify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FF5A0D11CB1B4B400F6CEEC /* Debug */,
+				6FF5A0D21CB1B4B400F6CEEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FF5A0D31CB1B4B400F6CEEC /* Build configuration list for PBXNativeTarget "Launchify" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FF5A0D41CB1B4B400F6CEEC /* Debug */,
+				6FF5A0D51CB1B4B400F6CEEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6FF5A0EA1CB1B8D300F6CEEC /* Build configuration list for PBXNativeTarget "LaunchifyTodayExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6FF5A0EB1CB1B8D300F6CEEC /* Debug */,
+				6FF5A0EC1CB1B8D300F6CEEC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6FF5A0B91CB1B4B400F6CEEC /* Project object */;
+}
