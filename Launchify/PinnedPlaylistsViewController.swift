@@ -39,6 +39,12 @@ class PinnedPlaylistsViewController: UIViewController {
         configurePinnedTableView()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        // Configure the initial appearance of the playlist view after everything has been loaded and the view is ready to appear
+        pinnedPlaylistsView.configureInitialAppearance()
+    }
+    
     // MARK: - Configuration Methods
     func configurePinnedTableView() {
         pinnedPlaylistsView.pinnedTableView.dataSource = self
@@ -119,6 +125,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     }
     
 //     TODO: Use a footer intead of a last row
+    // Actually, don't use a footer, just allow for the pin limit to be increased to 5. ("Increase Pin Limit") <- Buy button text
 //    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
 //        if tableView == pinnedPlaylistsView.pinnedTableView {
 //            return 45
@@ -162,10 +169,17 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     
     // MARK: Delegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+//        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
-        // Show the pinned playlists
-        pinnedPlaylistsView.showPinnedPlaylists(withSpring: true)
+        let pinnedTable = pinnedPlaylistsView.pinnedTableView
+        let unpinnedTable = pinnedPlaylistsView.unpinnedTableView
+        
+        // Begin the animation transaction
+//        CATransaction.begin()
+//        CATransaction.setCompletionBlock() {
+//            pinnedTable.reloadData()
+//            self.pinnedPlaylistsView.adjustUnpinnedPlaylistsContent()
+//        }
         
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
@@ -174,29 +188,47 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
             // Remove the pinned
             // TODO: Write the removePinnedPlaylist method on the playlist manager
 //            LaunchifyPlaylistsManager.addPinnedPlaylist(<#T##playlist: LaunchifyPlaylist##LaunchifyPlaylist#>)
+            pinnedTable.beginUpdates()
             pinnedPlaylists.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
+            pinnedTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
+            pinnedTable.endUpdates()
             
             // Add the unpinned
             unpinnedPlaylists.append(playlist)
             let targetIndexPath = NSIndexPath(forRow: pinnedPlaylists.count, inSection: 0)
-            pinnedPlaylistsView.unpinnedTableView.insertRowsAtIndexPaths([targetIndexPath], withRowAnimation: .Top)
+            unpinnedTable.beginUpdates()
+            unpinnedTable.insertRowsAtIndexPaths([targetIndexPath], withRowAnimation: .Top)
+            unpinnedTable.endUpdates()
+            
+            pinnedPlaylistsView.adjustUnpinnedPlaylistsAfterUnpinning()
         }
             
         // Unpinned Table View
         else {
-            let playlist = unpinnedPlaylists[indexPath.row]
+            // Show the pinned playlists (this will only occur if it was hidden)
+            pinnedPlaylistsView.showPinnedPlaylists(withSpring: true)
             
+            let playlist = unpinnedPlaylists[indexPath.row]
+
             // Remove the unpinned
+            unpinnedTable.beginUpdates()
             unpinnedPlaylists.removeAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
+            unpinnedTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
+            unpinnedTable.endUpdates()
             
             // Add the pinned
             LaunchifyPlaylistsManager.addPinnedPlaylist(playlist)
             pinnedPlaylists.append(playlist)
             let targetIndexPath = NSIndexPath(forRow: pinnedPlaylists.count - 1, inSection: 0)
-            pinnedPlaylistsView.pinnedTableView.insertRowsAtIndexPaths([targetIndexPath], withRowAnimation: .Top)
+            pinnedTable.beginUpdates()
+            pinnedTable.insertRowsAtIndexPaths([targetIndexPath], withRowAnimation: .Top)
+            pinnedTable.endUpdates()
+            
+            pinnedPlaylistsView.adjustUnpinnedPlaylistsAfterPinning()
         }
+        
+        // Commit the animation transaction
+//        CATransaction.commit()
     }
     
     func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
@@ -226,8 +258,12 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
         }
         
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlaylistTableViewCell
-        cell.didUnhighlight()
+//        if !cell.selected {
+            // TODO: Make this work so that when a user does selects a row it doesn't unhighlight
+            cell.didUnhighlight()
+//        }
     }
+    
     
     // MARK: Scroll View Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {

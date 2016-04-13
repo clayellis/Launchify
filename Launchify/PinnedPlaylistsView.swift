@@ -70,8 +70,7 @@ class PinnedPlaylistsView: UIView {
         // Style Subviews
         pinnedBackroundView.backgroundColor = .lfDarkGray()
         
-        pinnedTableView.contentInset = UIEdgeInsets(top: currentTopBarHeight, left: 0, bottom: 0, right: 0)
-        pinnedTableView.contentOffset = CGPoint(x: 0, y: -currentTopBarHeight)
+        // (Insets and offsets are set in configureInitialAppearance)
         pinnedTableView.showsVerticalScrollIndicator = false
         pinnedTableView.backgroundColor = .clearColor()
         pinnedTableView.separatorColor = .lfSeparatorGray()
@@ -79,15 +78,23 @@ class PinnedPlaylistsView: UIView {
         pinnedTableView.tableFooterView = UIView()
         pinnedTableView.delaysContentTouches = false
         
-        unpinnedTableView.contentInset = UIEdgeInsets(top: currentTopBarHeight, left: 0, bottom: 0, right: 0)
-        unpinnedTableView.contentOffset = CGPoint(x: 0, y: -currentTopBarHeight)
-        unpinnedTableView.scrollIndicatorInsets = unpinnedTableView.contentInset
+        // (Insets and offsets are set in configureInitialAppearance)
         unpinnedTableView.backgroundColor = .lfMediumGray()
         unpinnedTableView.separatorColor = .lfSeparatorGray()
         unpinnedTableView.separatorInset = UIEdgeInsets(top: 0, left: 54, bottom: 0, right: 0)
         unpinnedTableView.rowHeight = 60
         unpinnedTableView.delaysContentTouches = false
         
+    }
+    
+    // Called from viewWillAppear()
+    func configureInitialAppearance() {
+        pinnedTableView.contentInset = UIEdgeInsets(top: currentTopBarHeight, left: 0, bottom: 0, right: 0)
+        pinnedTableView.contentOffset.y = -pinnedTableView.contentInset.top
+        
+        // Force the pinned table view to load its data since adjustUpinnedPlaylistsContent relies on its content size
+        pinnedTableView.reloadData()
+        adjustUnpinnedPlaylistsContent()
     }
     
     func configureLayout() {
@@ -198,7 +205,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
 //            self.showPinnedPlaylistsCell?.alpha = 0
             }, completion: nil)
         
-        adjustUnpinnedPlaylistsContentInsets()
+        adjustUnpinnedPlaylistsContent()
     }
     
     func hidePinnedPlaylists(withSpring spring: Bool) {
@@ -233,19 +240,38 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
             self.showPinnedPlaylistsCell?.alpha = 1
             }, completion: nil)
         
-        adjustUnpinnedPlaylistsContentInsets()
+        adjustUnpinnedPlaylistsContent()
     }
     
-    func adjustUnpinnedPlaylistsContentInsets() {
+    func adjustUnpinnedPlaylistsContent() {
+//        pinnedTableView.reloadData()
+        // Adjusts the unpinned playlist insets and offsets to be just below the "show pinned playlists" buttons
         let options: UIViewAnimationOptions = [.BeginFromCurrentState, .LayoutSubviews, .AllowUserInteraction]
-        if autoHidingPinnedPlaylists {
+        UIView.animateWithDuration(0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: options, animations: {
+            self.unpinnedTableView.contentInset.top = self.currentTopBarHeight + self.pinnedTableView.contentSize.height + self.pinnedTableView.transform.ty
+            self.unpinnedTableView.contentOffset.y = -self.unpinnedTableView.contentInset.top
+            self.unpinnedTableView.scrollIndicatorInsets = self.unpinnedTableView.contentInset
+            }, completion: nil)
+    }
+    
+    func adjustUnpinnedPlaylistsAfterPinning() {
+        if let normalRowHeight = pinnedTableView.delegate!.tableView?(pinnedTableView, heightForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) {
+            let options: UIViewAnimationOptions = [.BeginFromCurrentState, .LayoutSubviews, .AllowUserInteraction]
             UIView.animateWithDuration(0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: options, animations: {
-                self.unpinnedTableView.contentInset.top = self.currentTopBarHeight + self.pinnedTableViewLastRowHeight
-                }, completion: nil)
-        } else if autoShowingPinnedPlaylists {
-            UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: options, animations: {
-                self.unpinnedTableView.contentInset.top = self.currentTopBarHeight + self.pinnedTableView.contentSize.height
+                self.unpinnedTableView.contentInset.top = self.unpinnedTableView.contentInset.top + normalRowHeight
                 self.unpinnedTableView.contentOffset.y = -self.unpinnedTableView.contentInset.top
+                self.unpinnedTableView.scrollIndicatorInsets = self.unpinnedTableView.contentInset
+                }, completion: nil)
+        }
+    }
+    
+    func adjustUnpinnedPlaylistsAfterUnpinning() {
+        if let normalRowHeight = pinnedTableView.delegate!.tableView?(pinnedTableView, heightForRowAtIndexPath: NSIndexPath(forRow: 0, inSection: 0)) {
+            let options: UIViewAnimationOptions = [.BeginFromCurrentState, .LayoutSubviews, .AllowUserInteraction]
+            UIView.animateWithDuration(0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: options, animations: {
+                self.unpinnedTableView.contentInset.top = self.unpinnedTableView.contentInset.top - normalRowHeight
+                self.unpinnedTableView.contentOffset.y = -self.unpinnedTableView.contentInset.top
+                self.unpinnedTableView.scrollIndicatorInsets = self.unpinnedTableView.contentInset
                 }, completion: nil)
         }
     }
