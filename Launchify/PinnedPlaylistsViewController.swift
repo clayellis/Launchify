@@ -8,10 +8,10 @@
 
 import UIKit
 
-// Global context variable for key/value observing
+// Global context variable for Swift dynamic key/value observing
 private var pagingContext = 0
 
-class PinnedPlaylistsViewController: UIViewController, LFPagingControllerPagingDelegate {
+class PinnedPlaylistsViewController: UIViewController {
     
     // View
     let pinnedPlaylistsView = PinnedPlaylistsView()
@@ -25,21 +25,9 @@ class PinnedPlaylistsViewController: UIViewController, LFPagingControllerPagingD
                            LaunchifyPlaylist(playlistTitle: "Fifth Pinned", uri: "")]
     
     // Properties
-    let transformKeyPath = "transform"
+    let transformKeyPath = "transform" // For Swift dynamic key/value observing
     
-    // States
-    /// The system automatically sets pinnedPlaylistsHidden in the scrollViewDidEndScrollingAnimation(_:) method
-    var pinnedPlaylistsHidden = false
-    /// 
-//    var autoAnimatingPinnedPlaylists = false
-    /// Only set to true in the convenience (show/hid)PinnedPlaylist method
-    /// Automatically reset by the system in scrollViewDidEndScrollingAnimation(_:)
-    var autoShowingPinnedPlaylists = false
-    /// Only set to true in the convenience (show/hid)PinnedPlaylist method
-    /// Automatically reset by the system in scrollViewDidEndScrollingAnimation(_:)
-    var autoHidingPinnedPlaylists = false
-    
-    
+
     // MARK: View Controller Life Cycle
     override func loadView() {
         self.view = pinnedPlaylistsView
@@ -60,7 +48,6 @@ class PinnedPlaylistsViewController: UIViewController, LFPagingControllerPagingD
         pinnedPlaylistsView.pinnedTableView.registerClass(PinnedPlaylistShowTableViewCell.self,
                                                           forCellReuseIdentifier: PinnedPlaylistShowTableViewCell.reuseIdentifier)
         LFPagingController.sharedInstance.topBar.addObserver(self, forKeyPath: transformKeyPath, options: .New, context: &pagingContext)
-        LFPagingController.sharedInstance.addPagingDelegate(self)
     }
     
     func configureUnpinnedTableView() {
@@ -80,75 +67,16 @@ class PinnedPlaylistsViewController: UIViewController, LFPagingControllerPagingD
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if context == &pagingContext {
             guard let ty = change?[NSKeyValueChangeNewKey]?.CGAffineTransformValue().ty else { return }
-            pagingControllerTopBarTYDidChange(newTy: ty)
+            pinnedPlaylistsView.pagingControllerTopBarTYDidChange(newTy: ty)
         } else {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
         }
     }
 
-    func pagingControllerTopBarTYDidChange(newTy ty: CGFloat) {
-        let normalTopBarHeight = LFPagingController.sharedInstance.topBarBarHeight
-        let topInset = normalTopBarHeight + ty
-        var hiddenOffset: CGFloat = 0
-        print("pagingControllerTopBarTYDidChange")
-
-        if pinnedPlaylistsHidden {
-            print("^ (if pinnedPlaylistsHidden)")
-            hiddenOffset = pinnedPlaylistsView.pinnedTableViewHeightMinusLastRow
-            
-            let bottomInset = pinnedPlaylistsView.pinnedTableView.frame.size.height - pinnedPlaylistsView.currentTopBarHeight - pinnedPlaylistsView.pinnedTableViewLastRowHeight
-            pinnedPlaylistsView.pinnedTableView.contentInset.bottom = bottomInset
-        }
-
-        pinnedPlaylistsView.pinnedTableView.contentInset.top = topInset - hiddenOffset
-    }
-    
     deinit {
         LFPagingController.sharedInstance.topBar.removeObserver(self, forKeyPath: transformKeyPath, context: &pagingContext)
     }
-    
-    // MARK: - Pinned Table View Show/Hide Methods
-    func pagingControll(affectingScrollViewDidScrollPastThresholdWithOffset offset: CGFloat, draggingUp: Bool) {
-        print("pagingControllAffectingScrollViewDidScrollPastThresholdWithOffset")
 
-        let showHideThreshold: CGFloat = 120
-        if draggingUp && offset > showHideThreshold && !pinnedPlaylistsHidden {
-            print("pagingControllAffectingScrollViewDidScrollPastThresholdWithOffset - if")
-            hidePinnedPlaylists()
-        } else if !draggingUp && offset > showHideThreshold && pinnedPlaylistsHidden {
-            print("pagingControllAffectingScrollViewDidScrollPastThresholdWithOffset - else if")
-            showPinnedPlaylists()
-        }
-    }
-    
-    func showPinnedPlaylistsTapped(sender: UIButton) {
-        print("showPinnedPlaylistsTapped")
-        if pinnedPlaylistsHidden {
-            print("showPinnedPlaylistsTapped - if pinnedPlaylistsHidden")
-            showPinnedPlaylists()
-        } else {
-            print("showPinnedPlaylistsTapped - else !pinnedPlaylistsHidden")
-            hidePinnedPlaylists()
-        }
-    }
-    
-    func showPinnedPlaylists() {
-        print("showPinnedPlaylists()")
-//        autoAnimatingPinnedPlaylists = true
-        autoShowingPinnedPlaylists = true
-        autoHidingPinnedPlaylists = false
-        pinnedPlaylistsView.showPinnedPlaylists()
-    }
-    
-    func hidePinnedPlaylists() {
-        print("hidePinnedPlaylists()")
-        
-//        autoAnimatingPinnedPlaylists = true
-        autoHidingPinnedPlaylists = true
-        autoShowingPinnedPlaylists = false
-        pinnedPlaylistsView.hidePinnedPlaylists()
-    }
-    
     // MARK: - Playlist Pin / Unpin Methods
     
     func unpinToggleButtonTapped(sender: UIButton) {
@@ -190,6 +118,21 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
         }
     }
     
+//     TODO: Use a footer intead of a last row
+//    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+//        if tableView == pinnedPlaylistsView.pinnedTableView {
+//            return 45
+//        } else { return 0 }
+//    }
+//    
+//    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+//        if tableView == pinnedPlaylistsView.pinnedTableView {
+//            let footerView = UIView()
+//            footerView.backgroundColor = .yellowColor()
+//            return footerView
+//        } else { return nil }
+//    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
@@ -201,7 +144,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
             } else {
                 let cell = tableView.dequeueReusableCellWithIdentifier(PinnedPlaylistShowTableViewCell.reuseIdentifier)
                 let showPinnedPlaylistsCell = (cell as? PinnedPlaylistShowTableViewCell) ?? PinnedPlaylistShowTableViewCell()
-                showPinnedPlaylistsCell.showPinnedPlaylistsButton.addTarget(self, action: #selector(showPinnedPlaylistsTapped(_:)), forControlEvents: .TouchUpInside)
+                showPinnedPlaylistsCell.showPinnedPlaylistsButton.addTarget(pinnedPlaylistsView, action: #selector(pinnedPlaylistsView.showPinnedPlaylistsTapped(_:)), forControlEvents: .TouchUpInside)
                 pinnedPlaylistsView.showPinnedPlaylistsCell = showPinnedPlaylistsCell
                 return showPinnedPlaylistsCell
             }
@@ -220,12 +163,15 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     // MARK: Delegate
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
+        // Show the pinned playlists
+        pinnedPlaylistsView.showPinnedPlaylists(withSpring: true)
+        
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
             let playlist = pinnedPlaylists[indexPath.row]
             
             // Remove the pinned
-            
             // TODO: Write the removePinnedPlaylist method on the playlist manager
 //            LaunchifyPlaylistsManager.addPinnedPlaylist(<#T##playlist: LaunchifyPlaylist##LaunchifyPlaylist#>)
             pinnedPlaylists.removeAtIndex(indexPath.row)
@@ -254,16 +200,14 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
-        
-        
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-            
+            // ...
         }
             
         // Unpinned Table View
         else {
-            
+            // ...
         }
         
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlaylistTableViewCell
@@ -271,16 +215,14 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath) {
-        
-        
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-            
+            // ...
         }
             
         // Unpinned Table View
         else {
-            
+            // ...
         }
         
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlaylistTableViewCell
@@ -289,115 +231,54 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     
     // MARK: Scroll View Delegate
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        
         let tableView = scrollView as! UITableView
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-//            print("scrollViewDidScroll()")
-
-            if !autoShowingPinnedPlaylists && !autoHidingPinnedPlaylists {
-//                print("scrollViewDidScroll() - if !autoShowing/HidingPlaylists")
-                tableView.contentInset.bottom = 0
-                let offsetY = tableView.contentOffset.y
-                if pinnedPlaylistsHidden {
-//                    print("scrollViewDidScroll() - if !autoShowing/HidingPlaylists - if pinnedPlaylistsHidden")
-
-                    let threshold: CGFloat = 100
-                    let targetPoint = -tableView.contentInset.top - threshold
-//                    print(offsetY, targetPoint)
-                    if offsetY < targetPoint {
-//                        print("scrollViewDidScroll() - if !autoShowing/HidingPlaylists - if pinnedPlaylistsHidden - if offset < targetPoint")
-                        print("\nAuto show\n")
-                        showPinnedPlaylists()
-                    }
-                } else {
-//                    print("scrollViewDidScroll() - if !autoShowing/HidingPlaylists - else !pinnedPlaylistsHidden")
-
-                    let threshold: CGFloat = 230
-                    let adjustedBaseInset = pinnedPlaylistsView.currentTopBarHeight
-                    let targetPoint = tableView.contentSize.height - adjustedBaseInset - threshold
-//                    print(offsetY, targetPoint)
-                    if offsetY > targetPoint {
-//                        print("scrollViewDidScroll() - if !autoShowing/HidingPlaylists - else !pinnedPlaylistsHidden - if offset > targetPoint")
-                        print("\nAuto hide\n")
-                        hidePinnedPlaylists()
-                    }
-                }
-            }
+            pinnedPlaylistsView.pinnedPlaylistTableViewDidScroll()
         }
             
         // Unpinned Table View
         else {
             LFPagingController.sharedInstance.affectingScrollViewDidScroll(scrollView)
         }
-    
     }
     
     func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        
         let tableView = scrollView as! UITableView
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-            print("scrollViewDidEndDragging()")
+            // ...
         }
             
         // Unpinned Table View
         else {
-            
+            LFPagingController.sharedInstance.scrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
         }
-        
-        LFPagingController.sharedInstance.scrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
         let tableView = scrollView as! UITableView
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-            print("scrollViewDidEndDecelerating()")
+            // ...
         }
             
         // Unpinned Table View
         else {
-            
+            LFPagingController.sharedInstance.scrollViewDidEndDecelerating(scrollView)
         }
-        
-        LFPagingController.sharedInstance.scrollViewDidEndDecelerating(scrollView)
     }
     
     func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
-        
         let tableView = scrollView as! UITableView
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-            print("scrollViewDidEndScrollingAnimation()")
-            if autoShowingPinnedPlaylists {
-                print("scrollViewDidEndScrollingAnimation() - if autoShowingPinnedPlaylists")
-                pinnedPlaylistsView.setPinnedPlaylistInsetsToShowing()
-                pinnedPlaylistsView.forceTouchesEndedWhileAutoAnimating()
-                autoShowingPinnedPlaylists = false
-                autoHidingPinnedPlaylists = false
-                pinnedPlaylistsHidden = false
-            }
-            
-            // FIXME: Flicking the pinned playlist down will cause a weird flicker. "Auto show" and "Auto hide" are being printed right after
-            // each other which means that a block (with those print statements) is being entered where it shouldn't
-            
-            if autoHidingPinnedPlaylists {
-                print("scrollViewDidEndScrollingAnimation() - if autoHidingPinnedPlaylists")
-                pinnedPlaylistsView.setPinnedPlaylistInsetsToHiding()
-                pinnedPlaylistsView.forceTouchesEndedWhileAutoAnimating()
-                autoHidingPinnedPlaylists = false
-                autoShowingPinnedPlaylists = false
-                pinnedPlaylistsHidden = true
-            }
+            // ...
         }
             
         // Unpinned Table View
         else {
-            
+            LFPagingController.sharedInstance.scrollViewDidEndScrollingAnimation(scrollView)
         }
-        
-        LFPagingController.sharedInstance.scrollViewDidEndScrollingAnimation(scrollView)
     }
 }

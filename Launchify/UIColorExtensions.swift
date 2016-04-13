@@ -56,11 +56,34 @@ extension UIColor {
     public convenience init?(hexString: String) {
         self.init(hexString: hexString, alpha: 1.0)
     }
+
+    // Lighter Scheme
+//    class func lfDarkestGray() -> UIColor { return UIColor(hexString: "2B2B2B")! }
+//    class func lfDarkGray() -> UIColor { return UIColor(hexString: "2E302E")! }
+//    class func lfMediumGray() -> UIColor { return UIColor(hexString: "373937")! }
+//    class func lfSeparatorGray() -> UIColor { return UIColor(hexString: "696969")! }
+//    class func lfLightGray() -> UIColor { return UIColor(hexString: "A4A4A4")! }
+//    class func lfGreen() -> UIColor { return UIColor(hexString: "1ED760")! }
     
-    class func lfDarkestGray() -> UIColor { return UIColor(hexString: "2B2B2B")! }
-    class func lfDarkGray() -> UIColor { return UIColor(hexString: "2E302E")! }    
-    class func lfMediumGray() -> UIColor { return UIColor(hexString: "373937")! }
-    class func lfSeparatorGray() -> UIColor { return UIColor(hexString: "696969")! }
-    class func lfLightGray() -> UIColor { return UIColor(hexString: "A4A4A4")! }
+    class func lfDarkestGray() -> UIColor { return UIColor(hexString: "101211")! }
+    class func lfDarkGray() -> UIColor { return UIColor(hexString: "141615")! }
+    class func lfMediumGray() -> UIColor { return UIColor(hexString: "1D1F1D")! }
+    class func lfSeparatorGray() -> UIColor { return UIColor(hexString: "2A2929")! }
+    class func lfLightGray() -> UIColor { return UIColor(hexString: "626262")! }
     class func lfGreen() -> UIColor { return UIColor(hexString: "1ED760")! }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

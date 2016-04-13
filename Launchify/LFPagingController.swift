@@ -14,12 +14,13 @@ import UIKit
 // - : Fade the paging button in/out at the page is changed (maybe with using, which page is coming into/out of view and
 //      what percentage of that view is visible, use the percentage to animate the alpha)
 // - : Add support for more pages by making the paging buttons scroll
+// - : Use a height constraint instead of a transform when moving the top bar
 
 @objc protocol LFPagingControllerPagingDelegate: class {
     optional func pagingControll(pageIsChangingFromPageAtIndex fromIndex: Int, toPageAtIndex toIndex: Int)
     optional func pagingControll(pageDidChangeToPageAtIndex index: Int)
     optional func pagingControll(pagingButtonTappedAtIndex index: Int)
-    optional func pagingControll(affectingScrollViewDidScrollPastThresholdWithOffset offset: CGFloat, draggingUp: Bool)
+    optional func pagingControll(affectingScrollViewDidScrollPastThreshold threshold: CGFloat, withOffset offset: CGFloat, draggingUp: Bool)
 }
 
 // Requires that these methods be implemented in order to move the top bar
@@ -50,12 +51,12 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
     
     // Subviews
     dynamic let topBar = UIView() // Declared dynamic in order to observe
-    let titleLabel = UILabel()
-    let pagingButtonsStackView = UIStackView()
-    var pagingButtons = [UIButton]()
-    let selectionIndicator = UIView()
-    var selectionIndicatorCenterXConstraint: NSLayoutConstraint!
-    var selectionIndicatorWidthConstraint: NSLayoutConstraint!
+    private let titleLabel = UILabel()
+    private let pagingButtonsStackView = UIStackView()
+    private var pagingButtons = [UIButton]()
+    private let selectionIndicator = UIView()
+    private var selectionIndicatorCenterXConstraint: NSLayoutConstraint!
+    private var selectionIndicatorWidthConstraint: NSLayoutConstraint!
     
     var pagingViewControllers = [UIViewController]()
     let pagingScrollView = UIScrollView()
@@ -74,7 +75,7 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
         configureLayout()
     }
     
-    func configureSubviews() {
+    private func configureSubviews() {
         // Add Subviews
         addSubview(pagingScrollView)
         addSubview(topBar)
@@ -107,7 +108,7 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
         pagingScrollView.delaysContentTouches = false
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(
             [topBar, titleLabel, pagingButtonsStackView, selectionIndicator, pagingScrollView])
         
@@ -124,7 +125,7 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
             
             // Title Label
             titleLabel.centerXAnchor.constraintEqualToAnchor(topBar.centerXAnchor),
-            titleLabel.topAnchor.constraintEqualToAnchor(topBar.topAnchor, constant: 23),
+            titleLabel.bottomAnchor.constraintEqualToAnchor(pagingButtonsStackView.topAnchor, constant: 0),
             
             // Paging Buttons Stack View
             pagingButtonsStackView.leftAnchor.constraintEqualToAnchor(topBar.leftAnchor),
@@ -156,37 +157,37 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
     
     // MARK: - Paging Delegates Notification Methods
     
-    func addPagingDelegate(delegate: LFPagingControllerPagingDelegate) {
+    internal func addPagingDelegate(delegate: LFPagingControllerPagingDelegate) {
         pagingDelegates.append(delegate)
     }
     
-    func notifyPagingDelegates(pagingButtonTappedAtIndex index: Int) {
+    private func notifyPagingDelegates(pagingButtonTappedAtIndex index: Int) {
         for pagingDelegate in pagingDelegates {
             pagingDelegate.pagingControll?(pagingButtonTappedAtIndex: index)
         }
     }
     
-    func notifyPagingDelegates(pageDidChangeToPageAtIndex index: Int) {
+    private func notifyPagingDelegates(pageDidChangeToPageAtIndex index: Int) {
         for pagingDelegate in pagingDelegates {
             pagingDelegate.pagingControll?(pageDidChangeToPageAtIndex: index)
         }
     }
     
-    func notifyPagingDelegates(pageIsChangingFromPageAtIdex fromIndex: Int, toPageAtIndex toIndex: Int) {
+    private func notifyPagingDelegates(pageIsChangingFromPageAtIdex fromIndex: Int, toPageAtIndex toIndex: Int) {
         for pagingDelegate in pagingDelegates {
             pagingDelegate.pagingControll?(pageIsChangingFromPageAtIndex: fromIndex, toPageAtIndex: toIndex)
         }
     }
     
-    func notifyPagingDelegates(affectingScrollViewDidScrollPastThresholdWithOffset offset: CGFloat, draggingUp: Bool) {
+    private func notifyPagingDelegates(affectingScrollViewDidScrollPastThreshold threshold: CGFloat, withOffset offset: CGFloat, draggingUp: Bool) {
         for pagingDelegate in pagingDelegates {
-            pagingDelegate.pagingControll?(affectingScrollViewDidScrollPastThresholdWithOffset: offset, draggingUp: draggingUp)
+            pagingDelegate.pagingControll?(affectingScrollViewDidScrollPastThreshold: threshold, withOffset: offset, draggingUp: draggingUp)
         }
     }
     
     // MARK: - LFPageController Methods
     
-    func addPagingViewController(pagingViewController: UIViewController) {
+    internal func addPagingViewController(pagingViewController: UIViewController) {
         // Animation constants
         let animationDuration: NSTimeInterval = 0.3
         
@@ -299,14 +300,14 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
         setNeedsLayout()
     }
     
-    func pagingButtonTapped(sender: UIButton) {
+    @objc private func pagingButtonTapped(sender: UIButton) {
         // Change to that paging button's page by using the paging button's tag
         pageToIndex(sender.tag, animated: true)
         // Notify the delegates that the page has changed
         notifyPagingDelegates(pagingButtonTappedAtIndex: sender.tag)
     }
     
-    func pageToIndex(index: Int, animated: Bool) {
+    internal func pageToIndex(index: Int, animated: Bool) {
         // Change the current index
         currentIndex = index
         // Update the paging buttons
@@ -316,7 +317,7 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
         pagingScrollView.setContentOffset(targetOffset, animated: animated)
     }
     
-    func updatePagingAfterPageChange() {
+    private func updatePagingAfterPageChange() {
         // Determine the new index by dividing the offsetX by the page width
         // Round the offset down to decimal offsets
         let offsetX = floor(pagingScrollView.contentOffset.x)
@@ -333,7 +334,7 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
         }
     }
     
-    func selectPagingButtonAtCurrentIndex() {
+    private func selectPagingButtonAtCurrentIndex() {
         // Select the current index paging button (turn it white) and deselect the rest (turn it gray)
         for (index, pagingButton) in pagingButtons.enumerate() {
             pagingButton.selected = index == currentIndex
@@ -343,23 +344,24 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
     
     // MARK: - UIScrollView Delegate Methods
     
-    var previousOffsetX: CGFloat = 0    // keep track of the previous offset to calculate which page is being scrolled to
+    private var previousOffsetX: CGFloat = 0    // keep track of the previous offset to calculate which page is being scrolled to
     
-    var previousOffsetY: CGFloat = 0    // keep track of the previous offset to calculate distance and direction
-    var scrollAmount: CGFloat = 0       // the total distance this unique swipe has travelled
-    var scrollVelocity: CGFloat = 0     // velocity helps adjust the finishing animation duration
-    var wasDraggingUp = false           // helps in determining if the scrolling direction has changed
-    var draggingUp = false              // specifies the scrolling direction
-    var topBarShouldAnimateUp = false   // tells the controller to finish animating when the swipe has ended
-    var topBarShouldAnimateDown = false // same as above
-    var topBarBarHeight: CGFloat = 91   // the height of the top bar
+    private var previousOffsetY: CGFloat = 0    // keep track of the previous offset to calculate distance and direction
+    private var scrollAmount: CGFloat = 0       // the total distance this unique swipe has travelled
+    private var scrollVelocity: CGFloat = 0     // velocity helps adjust the finishing animation duration
+    private var wasDraggingUp = false           // helps in determining if the scrolling direction has changed
+    private var draggingUp = false              // specifies the scrolling direction
+    private var topBarShouldAnimateUp = false   // tells the controller to finish animating when the swipe has ended
+    private var topBarShouldAnimateDown = false // same as above
+    var topBarBarHeight: CGFloat = 91           // the height of the top bar
     var collapsedPagingButtonScale: CGFloat = 0.9   // the collapsed scaled for the paging buttons
     
-    let pushPullThreshold: CGFloat = 100    // the distance the user must swipe before the top bar animates
-    let topBarUpPosition: CGFloat = -35     // the collapsed position of the top bar (distance from affine transform ty)
-    let topBarDownPosition: CGFloat = 0     // the resting position of the top bar (affine transform ty)
+    // TODO: Consider making these public to adjust from the outside
+    private let pushPullThreshold: CGFloat = 100    // the distance the user must swipe before the top bar animates
+    private let topBarUpPosition: CGFloat = -35     // the collapsed position of the top bar (distance from affine transform ty)
+    private let topBarDownPosition: CGFloat = 0     // the resting position of the top bar (affine transform ty)
     
-    func resetScrollingValuesAfterPageChange() {
+    private func resetScrollingValuesAfterPageChange() {
         previousOffsetX = 0
         // These values need to be reset after changing pages in order to animate the top bar changes correctly
         previousOffsetY = 0
@@ -371,22 +373,23 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
         topBarShouldAnimateDown = false
     }
     
-    func resetScrollingValues() {
+    private func resetScrollingValues() {
         previousOffsetX = 0
         // Resetting scroll amount allows for each swipe to be calculated individually
         scrollAmount = 0
     }
     
-    func topBarIsInUpPosition() -> Bool {
+    private func topBarIsInUpPosition() -> Bool {
         return topBar.transform.ty == topBarUpPosition
     }
     
-    func topBarIsInDownPosition() -> Bool {
+    private func topBarIsInDownPosition() -> Bool {
         return topBar.transform.ty == topBarDownPosition
     }
     
-    internal func scrollViewDidScroll(scrollView: UIScrollView) {
-        // Only concerned about the horizontal scrolling - direction is locked that way
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        // THIS METHOD ONLY RECEIVES SCROLL EVENTS FROM THE PAGING SCROLL VIEW (HORIZONTAL)
+        // Other expected scrollViewDidScroll events might be found in affectingScrollViewDidScroll()
         let offsetX = scrollView.contentOffset.x
         let totalPageWidth = scrollView.contentSize.width - pageWidth
         let percetangeScrolled = offsetX / totalPageWidth
@@ -448,7 +451,7 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
         }
     }
     
-    func shouldDiscardScroll(fromScrollView scrollView: UIScrollView) -> Bool {
+    private func shouldDiscardScroll(fromScrollView scrollView: UIScrollView) -> Bool {
         // Scrolling past the bottom should be discarded, this method determines if the user has scrolled past the bottom
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
@@ -457,11 +460,11 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
         return offsetY + scrollViewHeight >= contentHeight
     }
     
-    func beginAdjustingTopBar(withOffset offset: CGFloat) {
-        // Notify the delegates the affecting scroll view is scrolling past the threshold
-        notifyPagingDelegates(affectingScrollViewDidScrollPastThresholdWithOffset: offset, draggingUp: draggingUp)
-        
+    private func beginAdjustingTopBar(withOffset offset: CGFloat) {
         let animationDistance: CGFloat = 90
+        
+        // Notify the delegates the affecting scroll view is scrolling past the threshold
+        notifyPagingDelegates(affectingScrollViewDidScrollPastThreshold: animationDistance, withOffset: offset, draggingUp: draggingUp)
         
         // Group One Animations - Top Bar ty, Paging Buttons scale
         let startGroupOne = draggingUp ? 0 : animationDistance
@@ -516,7 +519,7 @@ class LFPagingController: UIControl, UIScrollViewDelegate {
         resetScrollingValues()
     }
     
-    func finishTopBarAnimationIfNeeded() {
+    private func finishTopBarAnimationIfNeeded() {
         // Finish animating the top bar's position at the end of swipe (if needed)
         // The duration is affected by the velocity of the swipe
         let duration: NSTimeInterval = min(0.4, Double(200 / fabs(scrollVelocity)))
