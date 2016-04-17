@@ -12,6 +12,7 @@ class NeedHelpView: UIView {
     
     // Subviews
     let label = UILabel()
+    let logoutButton = UIButton()
     
     
     // MARK: - Initialization
@@ -24,22 +25,29 @@ class NeedHelpView: UIView {
     func configureSubviews() {
         // Add Subviews
         addSubview(label)
+        addSubview(logoutButton)
         
         // Style View
         
         
         // Style Subviews
         label.text = "Need Help? View"
+        
+        logoutButton.setTitle("Logout", forState: .Normal)
+        logoutButton.setTitleColor(.whiteColor(), forState: .Normal)
+        logoutButton.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.5), forState: .Highlighted)
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse([label])
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(label, logoutButton)
         
         // Add Constraints
         NSLayoutConstraint.activateConstraints([
-            // Label
             label.centerXAnchor.constraintEqualToAnchor(centerXAnchor),
-            label.centerYAnchor.constraintEqualToAnchor(centerYAnchor)
+            label.centerYAnchor.constraintEqualToAnchor(centerYAnchor),
+            
+            logoutButton.centerXAnchor.constraintEqualToAnchor(centerXAnchor),
+            logoutButton.bottomAnchor.constraintEqualToAnchor(bottomAnchor, constant: -15)
             ])
     }
     

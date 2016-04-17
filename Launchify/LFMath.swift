@@ -56,5 +56,26 @@ public func pivot(x: CGFloat, between lower: CGFloat, and upper: CGFloat, clampe
     }
 }
 
-
-
+extension Array {
+    mutating func shift(sourceIndex sourceIndex: Int, destinationIndex: Int) {
+        if sourceIndex < destinationIndex {
+            assert(sourceIndex >= startIndex, "SourceIndex is less than 0")
+            assert(destinationIndex < endIndex, "DestinationIndex is out of range")
+            let prefixBlock = self[startIndex ..< sourceIndex]
+            let shiftingBlock = self[(sourceIndex + 1) ... destinationIndex]
+            let shiftingElement = self[sourceIndex ... sourceIndex]
+            let suffixBlock = self[(destinationIndex + 1) ..< endIndex]
+            self = Array(prefixBlock + shiftingBlock + shiftingElement + suffixBlock)
+        } else if sourceIndex > destinationIndex {
+            assert(sourceIndex < endIndex, "SourceIndex is out of range")
+            assert(destinationIndex >= startIndex, "DestinationIndex is less than 0")
+            let prefixBlock = self[startIndex ..< destinationIndex]
+            let shiftingBlock = self[destinationIndex ..< sourceIndex]
+            let shiftingElement = self[sourceIndex ... sourceIndex]
+            let suffixBlock = self[(sourceIndex + 1) ..< endIndex]
+            self = Array(prefixBlock + shiftingElement + shiftingBlock + suffixBlock)
+        } else {
+            // Do nothing
+        }
+    }
+}

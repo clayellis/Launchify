@@ -8,23 +8,32 @@
 
 import UIKit
 
-// MARK: - Shared Constants
-let sharedUserDefaults = NSUserDefaults(suiteName: sharedUserDefaultsSuiteName)!
-let sharedUserDefaultsSuiteName = "group.appsidian.LaunchifyTodayExtensionSharingDefaults"
-let sharedPlaylistsArrayKey = "\(sharedUserDefaultsSuiteName).Playlists"
-let sharedUserLoggedInKey = "\(sharedUserDefaultsSuiteName).UserLoggedIn"
-
+// MARK: Application Constants
 let kPlaylistLimit = 5
+
+// MARK: - Authorization Flow Keys
+let authorizationSessionKey = "LaunchifySessionKey"
+let authorizationTokenServiceScheme = "https://launchify-token-service.herokuapp.com"
+//let authorizationTokenServiceScheme = "http://localhost:1234"
+let authorizationTokenRefreshURLString = "\(authorizationTokenServiceScheme)/refresh"
+let authorizationTokenSwapURLString = "\(authorizationTokenServiceScheme)/swap"
 
 // MARK: Spotify Keys
 let kClientId = "1e6f78f7c501481e83399edfcbfdcd82"
 let kClientSecret = "589ea13d46b145619e96674b77a5a99b"
 
+// MARK: - Shared Constants
+let sharedUserDefaults = NSUserDefaults(suiteName: sharedUserDefaultsSuiteName)!
+let sharedUserDefaultsSuiteName = "group.appsidian.LaunchifyTodayExtensionSharingDefaults"
+let sharedPlaylistsArrayKey = "\(sharedUserDefaultsSuiteName).Playlists"
+//let sharedUserLoggedInKey = "\(sharedUserDefaultsSuiteName).UserLoggedIn"
+
 // MARK: - Deep Linking
 let kAppScheme = "launchify://"
 let kDeepLinkRedirectURI = NSURL(string:  "\(kAppScheme)returnafterlogin")!
+let kDeepLinkLogoutURI = NSURL(string:  "\(kAppScheme)logout")!
 let kDeepLinkEditURI = NSURL(string: "\(kAppScheme)/edit")!
-let kValidDeepLinks = [kDeepLinkRedirectURI, kDeepLinkEditURI]
+let kValidDeepLinks = [kDeepLinkRedirectURI, kDeepLinkLogoutURI, kDeepLinkEditURI]
 
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -58,4 +67,8 @@ class LaunchifyPlaylist: NSObject, NSCoding {
         aCoder.encodeObject(self.playlistTitle, forKey: "playlistTitle")
         aCoder.encodeObject(self.uri, forKey: "uri")
     }
+}
+
+func ==(lhs: LaunchifyPlaylist, rhs: LaunchifyPlaylist) -> Bool {
+    return lhs.playlistTitle == rhs.playlistTitle && lhs.uri == rhs.uri
 }

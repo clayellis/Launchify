@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: - UIView Extension
 extension UIView {
-    func setTranslatesAutoresizingMaskIntoConstraintsToFalse(views: [UIView]) {
+    func setTranslatesAutoresizingMaskIntoConstraintsToFalse(views: UIView...) {
         for view in views {
             view.translatesAutoresizingMaskIntoConstraints = false
         }

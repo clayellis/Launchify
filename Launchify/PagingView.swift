@@ -11,8 +11,7 @@ import UIKit
 class PagingView: UIView {
     
     // Subviews
-    let pagingController = LFPagingController.sharedInstance
-    
+    let pagingController = LFPagingController()
     
     // MARK: - Initialization
     convenience init() {
@@ -32,7 +31,7 @@ class PagingView: UIView {
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse([pagingController])
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(pagingController)
         
         // Add Constraints
         pagingController.fillSuperview()

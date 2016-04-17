@@ -76,6 +76,10 @@ class LaunchifyPlaylistsManager {
         sharedUserDefaults.synchronize()
     }
     
+    class func resetPinnedPlaylists() {
+        setPinnedPlaylists([])
+    }
+    
     /// Add a playlist to the pinned playlists
     // TODO: This method unarchives and rearchives the entire list just to add one playlist, make it more efficient
     class func addPinnedPlaylist(playlist: LaunchifyPlaylist) {
@@ -85,8 +89,25 @@ class LaunchifyPlaylistsManager {
         LaunchifyPlaylistsManager.setPinnedPlaylists(pinnedPlaylists)
     }
     
+    // TODO: Remove method
+    class func removePinnedPlaylist(playlist: LaunchifyPlaylist) {
+        var pinnedPlaylists = getPinnedPlaylists()
+        for (index, pinnedPlaylist) in pinnedPlaylists.enumerate() {
+            if playlist == pinnedPlaylist {
+                pinnedPlaylists.removeAtIndex(index)
+                break
+            }
+        }
+        setPinnedPlaylists(pinnedPlaylists)
+    }
+    
     
     // TODO: Add a swapPlaylistsAtIndexes method (to handle rearranging)
+    class func swapPlaylistsAtIndexes(sourceIndex sourceIndex: Int, destinationIndex: Int) {
+        var playlists = getPinnedPlaylists()
+        playlists.shift(sourceIndex: sourceIndex, destinationIndex: destinationIndex)
+        setPinnedPlaylists(playlists)
+    }
     
 }
 

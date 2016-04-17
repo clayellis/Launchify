@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NeedHelpViewController: UIViewController {
+class NeedHelpViewController: PagingViewController {
     
     // View
     let needHelpView = NeedHelpView()
@@ -28,7 +28,11 @@ class NeedHelpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
+        needHelpView.logoutButton.addTarget(self, action: #selector(logoutTapped), forControlEvents: .TouchUpInside)
+    }
+    
+    func logoutTapped(sender: UIButton) {
+        SpotifyService.logout()
     }
     
 }

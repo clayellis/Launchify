@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6F7DA9391CBEADAE0015205B /* TopLevelFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F7DA9381CBEADAE0015205B /* TopLevelFunctions.swift */; };
+		6F71E8111CC2146C002D0FAA /* SpotifyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F71E8101CC2146C002D0FAA /* SpotifyService.swift */; };
+		6F71E81A1CC30A12002D0FAA /* UnpinnedTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F71E8191CC30A12002D0FAA /* UnpinnedTableHeaderView.swift */; };
 		6F8A8D2B1CB78E31002B43EF /* LFPagingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D2A1CB78E31002B43EF /* LFPagingController.swift */; };
 		6F8A8D2D1CB78E5C002B43EF /* LFMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D2C1CB78E5C002B43EF /* LFMath.swift */; };
 		6F8A8D301CB78F93002B43EF /* PinnedPlaylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D2F1CB78F93002B43EF /* PinnedPlaylistsViewController.swift */; };
@@ -20,8 +21,8 @@
 		6F8A8D411CB829D5002B43EF /* LaunchifyPlaylistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D401CB829D5002B43EF /* LaunchifyPlaylistManager.swift */; };
 		6F8A8D431CB9580A002B43EF /* PinnedPlaylistShowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D421CB9580A002B43EF /* PinnedPlaylistShowTableViewCell.swift */; };
 		6FF5A0C51CB1B4B400F6CEEC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0C41CB1B4B400F6CEEC /* AppDelegate.swift */; };
-		6FF5A0C71CB1B4B400F6CEEC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0C61CB1B4B400F6CEEC /* MainViewController.swift */; };
-		6FF5A0C91CB1B4B400F6CEEC /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0C81CB1B4B400F6CEEC /* MainView.swift */; };
+		6FF5A0C71CB1B4B400F6CEEC /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0C61CB1B4B400F6CEEC /* LoginViewController.swift */; };
+		6FF5A0C91CB1B4B400F6CEEC /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0C81CB1B4B400F6CEEC /* LoginView.swift */; };
 		6FF5A0CD1CB1B4B400F6CEEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6FF5A0CC1CB1B4B400F6CEEC /* Assets.xcassets */; };
 		6FF5A0D01CB1B4B400F6CEEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6FF5A0CE1CB1B4B400F6CEEC /* LaunchScreen.storyboard */; };
 		6FF5A0D71CB1B59600F6CEEC /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0D61CB1B59600F6CEEC /* UIViewExtensions.swift */; };
@@ -33,7 +34,7 @@
 		6FF5A0F41CB1F28800F6CEEC /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0F31CB1F28800F6CEEC /* Shared.swift */; };
 		6FF5A10F1CB24AD500F6CEEC /* Spotify.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF5A10E1CB24AD500F6CEEC /* Spotify.framework */; };
 		6FF5A1111CB24BA300F6CEEC /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FF5A1101CB24BA300F6CEEC /* SystemConfiguration.framework */; };
-		6FF5A1151CB2567A00F6CEEC /* PagingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A1141CB2567A00F6CEEC /* PagingViewController.swift */; };
+		6FF5A1151CB2567A00F6CEEC /* PagingContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A1141CB2567A00F6CEEC /* PagingContainerViewController.swift */; };
 		6FF5A1171CB256CA00F6CEEC /* PagingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A1161CB256CA00F6CEEC /* PagingView.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +49,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		6F71E8181CC2176C002D0FAA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6FF5A0ED1CB1B8D300F6CEEC /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -62,7 +73,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6F7DA9381CBEADAE0015205B /* TopLevelFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopLevelFunctions.swift; sourceTree = "<group>"; };
+		6F71E8101CC2146C002D0FAA /* SpotifyService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyService.swift; sourceTree = "<group>"; };
+		6F71E8191CC30A12002D0FAA /* UnpinnedTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnpinnedTableHeaderView.swift; sourceTree = "<group>"; };
 		6F8A8D2A1CB78E31002B43EF /* LFPagingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LFPagingController.swift; sourceTree = "<group>"; };
 		6F8A8D2C1CB78E5C002B43EF /* LFMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LFMath.swift; sourceTree = "<group>"; };
 		6F8A8D2F1CB78F93002B43EF /* PinnedPlaylistsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinnedPlaylistsViewController.swift; sourceTree = "<group>"; };
@@ -75,8 +87,8 @@
 		6F8A8D421CB9580A002B43EF /* PinnedPlaylistShowTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinnedPlaylistShowTableViewCell.swift; sourceTree = "<group>"; };
 		6FF5A0C11CB1B4B400F6CEEC /* Launchify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Launchify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FF5A0C41CB1B4B400F6CEEC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		6FF5A0C61CB1B4B400F6CEEC /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		6FF5A0C81CB1B4B400F6CEEC /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		6FF5A0C61CB1B4B400F6CEEC /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		6FF5A0C81CB1B4B400F6CEEC /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		6FF5A0CA1CB1B4B400F6CEEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6FF5A0CC1CB1B4B400F6CEEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6FF5A0CF1CB1B4B400F6CEEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -92,7 +104,7 @@
 		6FF5A10E1CB24AD500F6CEEC /* Spotify.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Spotify.framework; sourceTree = "<group>"; };
 		6FF5A1101CB24BA300F6CEEC /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6FF5A1121CB24D9E00F6CEEC /* Launchify-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Launchify-Bridging-Header.h"; sourceTree = "<group>"; };
-		6FF5A1141CB2567A00F6CEEC /* PagingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingViewController.swift; sourceTree = "<group>"; };
+		6FF5A1141CB2567A00F6CEEC /* PagingContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingContainerViewController.swift; sourceTree = "<group>"; };
 		6FF5A1161CB256CA00F6CEEC /* PagingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +129,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F71E8121CC21471002D0FAA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				6F71E8101CC2146C002D0FAA /* SpotifyService.swift */,
+			);
+			name = Services;
+			sourceTree = "<group>";
+		};
 		6F8A8D2E1CB78ECC002B43EF /* Controls */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,7 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				6F8A8D2A1CB78E31002B43EF /* LFPagingController.swift */,
-				6FF5A1141CB2567A00F6CEEC /* PagingViewController.swift */,
+				6FF5A1141CB2567A00F6CEEC /* PagingContainerViewController.swift */,
 				6FF5A1161CB256CA00F6CEEC /* PagingView.swift */,
 			);
 			name = Paging;
@@ -141,6 +161,7 @@
 				6F8A8D311CB78F9D002B43EF /* PinnedPlaylistsView.swift */,
 				6F8A8D3D1CB81489002B43EF /* PlaylistTableViewCell.swift */,
 				6F8A8D421CB9580A002B43EF /* PinnedPlaylistShowTableViewCell.swift */,
+				6F71E8191CC30A12002D0FAA /* UnpinnedTableHeaderView.swift */,
 			);
 			name = "Pinned Playlists";
 			sourceTree = "<group>";
@@ -148,8 +169,8 @@
 		6F8A8D351CB791A4002B43EF /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				6FF5A0C61CB1B4B400F6CEEC /* MainViewController.swift */,
-				6FF5A0C81CB1B4B400F6CEEC /* MainView.swift */,
+				6FF5A0C61CB1B4B400F6CEEC /* LoginViewController.swift */,
+				6FF5A0C81CB1B4B400F6CEEC /* LoginView.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -187,6 +208,7 @@
 			children = (
 				6FF5A0C41CB1B4B400F6CEEC /* AppDelegate.swift */,
 				6F8A8D401CB829D5002B43EF /* LaunchifyPlaylistManager.swift */,
+				6F71E8121CC21471002D0FAA /* Services */,
 				6F8A8D351CB791A4002B43EF /* Login */,
 				6F8A8D331CB7916F002B43EF /* Paging */,
 				6F8A8D341CB79192002B43EF /* Pinned Playlists */,
@@ -227,7 +249,6 @@
 			children = (
 				6FF5A1121CB24D9E00F6CEEC /* Launchify-Bridging-Header.h */,
 				6FF5A0D61CB1B59600F6CEEC /* UIViewExtensions.swift */,
-				6F7DA9381CBEADAE0015205B /* TopLevelFunctions.swift */,
 				6F8A8D2C1CB78E5C002B43EF /* LFMath.swift */,
 				6F8A8D3B1CB79380002B43EF /* UIColorExtensions.swift */,
 				6FF5A0F31CB1F28800F6CEEC /* Shared.swift */,
@@ -246,6 +267,7 @@
 				6FF5A0BE1CB1B4B400F6CEEC /* Frameworks */,
 				6FF5A0BF1CB1B4B400F6CEEC /* Resources */,
 				6FF5A0ED1CB1B8D300F6CEEC /* Embed App Extensions */,
+				6F71E8181CC2176C002D0FAA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -347,7 +369,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F7DA9391CBEADAE0015205B /* TopLevelFunctions.swift in Sources */,
 				6FF5A0C51CB1B4B400F6CEEC /* AppDelegate.swift in Sources */,
 				6F8A8D3C1CB79380002B43EF /* UIColorExtensions.swift in Sources */,
 				6FF5A0F41CB1F28800F6CEEC /* Shared.swift in Sources */,
@@ -355,15 +376,17 @@
 				6F8A8D3A1CB79254002B43EF /* NeedHelpViewController.swift in Sources */,
 				6F8A8D431CB9580A002B43EF /* PinnedPlaylistShowTableViewCell.swift in Sources */,
 				6F8A8D3E1CB81489002B43EF /* PlaylistTableViewCell.swift in Sources */,
-				6FF5A0C91CB1B4B400F6CEEC /* MainView.swift in Sources */,
+				6FF5A0C91CB1B4B400F6CEEC /* LoginView.swift in Sources */,
 				6FF5A1171CB256CA00F6CEEC /* PagingView.swift in Sources */,
 				6F8A8D321CB78F9D002B43EF /* PinnedPlaylistsView.swift in Sources */,
+				6F71E81A1CC30A12002D0FAA /* UnpinnedTableHeaderView.swift in Sources */,
 				6F8A8D411CB829D5002B43EF /* LaunchifyPlaylistManager.swift in Sources */,
 				6FF5A0D71CB1B59600F6CEEC /* UIViewExtensions.swift in Sources */,
 				6F8A8D2D1CB78E5C002B43EF /* LFMath.swift in Sources */,
-				6FF5A1151CB2567A00F6CEEC /* PagingViewController.swift in Sources */,
+				6FF5A1151CB2567A00F6CEEC /* PagingContainerViewController.swift in Sources */,
 				6F8A8D371CB791EF002B43EF /* NeedHelpView.swift in Sources */,
-				6FF5A0C71CB1B4B400F6CEEC /* MainViewController.swift in Sources */,
+				6FF5A0C71CB1B4B400F6CEEC /* LoginViewController.swift in Sources */,
+				6F71E8111CC2146C002D0FAA /* SpotifyService.swift in Sources */,
 				6F8A8D2B1CB78E31002B43EF /* LFPagingController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -495,6 +518,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Launchify/Carthage/Build/iOS",
 				);
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Spotify.framework/Headers";
 				INFOPLIST_FILE = Launchify/Info.plist;
@@ -515,6 +539,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Launchify/Carthage/Build/iOS",
 				);
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Spotify.framework/Headers";
 				INFOPLIST_FILE = Launchify/Info.plist;

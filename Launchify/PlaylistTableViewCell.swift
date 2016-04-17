@@ -14,11 +14,9 @@ class PlaylistTableViewCell: UITableViewCell {
     static let unpinnedReuseIdentifier = "UNPINNED"
     static let pinnedReuseIdentifier = "PINNED"
     
-    
     // Subviews
     let toggleButton = UIButton()
     let titleLabel = UILabel()
-    
     
     // MARK: - Initialization
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -38,10 +36,11 @@ class PlaylistTableViewCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         
         // Style View
-        
+        preservesSuperviewLayoutMargins = false
+        layoutMargins = UIEdgeInsetsZero
         
         // Style Subviews
-        if reuseIdentifier == PlaylistTableViewCell.pinnedReuseIdentifier {
+        if reuseIdentifier == PlaylistTableViewCell.pinnedReuseIdentifier {            
             // Cell color
             contentView.backgroundColor = .lfDarkGray()
             
@@ -78,7 +77,7 @@ class PlaylistTableViewCell: UITableViewCell {
     }
     
     private func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse([toggleButton, titleLabel])
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(toggleButton, titleLabel)
         
         // Add Constraints
         NSLayoutConstraint.activateConstraints([
@@ -88,7 +87,7 @@ class PlaylistTableViewCell: UITableViewCell {
             toggleButton.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor),
             
             titleLabel.leftAnchor.constraintEqualToAnchor(toggleButton.rightAnchor),
-            titleLabel.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor)
+            titleLabel.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor),
             ])
     }
     
@@ -96,6 +95,11 @@ class PlaylistTableViewCell: UITableViewCell {
         toggleButton.selected = false
         titleLabel.text = playlist.playlistTitle
     }
+    
+//    internal func configureAsLastCell(last: Bool) {
+//        separatorInset = last ? UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//            : UIEdgeInsets(top: 0, left: 54, bottom: 0, right: 0)
+//    }
     
     @objc private func toggleButtonTouchUpInside(sender: UIButton) {
         sender.selected = true
