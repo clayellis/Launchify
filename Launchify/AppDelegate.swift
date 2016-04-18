@@ -16,15 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
+        // For Testing --------------------------------------------------------------------------------------------------------
         var playlists = LaunchifyPlaylistsManager.getPinnedPlaylists()
         LaunchifyPlaylistsManager.resetPinnedPlaylists()
         playlists = LaunchifyPlaylistsManager.getPinnedPlaylists()
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: kPlaylistPaidLimitPurchasedKey)
+        // --------------------------------------------------------------------------------------------------------------------
         
         // Configure the SPTAuth Object
         SpotifyService.configureAuth()
         
         // Continue loading application based on Spotify session state
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        // TODO: Set the window!.rootViewController to something else while loading
+        
         SpotifyService.attemptRenewingSession(
             success: {
                 self.showLaunchifyViewController()
@@ -64,8 +69,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleAuthCallbackWithURL(url: NSURL) -> Bool {
         SPTAuth.defaultInstance().handleAuthCallbackWithTriggeredAuthURL(url, callback: { (error, session) in
             if error != nil {
-                print("Auth error: \(error)")
-                return
+                // TODO: Determine what to do in case of an error here
+                return print("Auth error: \(error)")
             }
             
             // Login Successful

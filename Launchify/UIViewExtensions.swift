@@ -25,4 +25,24 @@ extension UIView {
             bottomAnchor.constraintEqualToAnchor(superview.bottomAnchor)
             ])
     }
+    
+    func subviewWithClassName(className: String) -> UIView? {
+        for subview in subviews {
+            if subview.dynamicType.description() == className {
+                return subview
+            }
+            subview.subviewWithClassName(className)
+        }
+        return nil
+    }
+    
+    func subviewWithClassType(classType: AnyClass) -> UIView? {
+        for subview in subviews {
+            if subview.isKindOfClass(classType) {
+                return subview
+            }
+            subview.subviewWithClassType(classType)
+        }
+        return nil
+    }
 }

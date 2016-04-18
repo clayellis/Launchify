@@ -9,7 +9,9 @@
 import UIKit
 
 // MARK: Application Constants
-let kPlaylistLimit = 5
+let kPlaylistFreeLimit = 10
+let kPlaylistPaidLimit = 6
+let kPlaylistPaidLimitPurchasedKey = "PlaylistIncreasedLimitPurchased"
 
 // MARK: - Authorization Flow Keys
 let authorizationSessionKey = "LaunchifySessionKey"
@@ -26,7 +28,6 @@ let kClientSecret = "589ea13d46b145619e96674b77a5a99b"
 let sharedUserDefaults = NSUserDefaults(suiteName: sharedUserDefaultsSuiteName)!
 let sharedUserDefaultsSuiteName = "group.appsidian.LaunchifyTodayExtensionSharingDefaults"
 let sharedPlaylistsArrayKey = "\(sharedUserDefaultsSuiteName).Playlists"
-//let sharedUserLoggedInKey = "\(sharedUserDefaultsSuiteName).UserLoggedIn"
 
 // MARK: - Deep Linking
 let kAppScheme = "launchify://"

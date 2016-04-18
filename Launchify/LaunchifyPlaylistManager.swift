@@ -6,41 +6,30 @@
 //  Copyright © 2016 Clay Ellis. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-extension LaunchifyPlaylist {
-    convenience init(sptPartialPlaylist playlist: SPTPartialPlaylist) {
-        self.init(playlistTitle: playlist.name, uri: playlist.playableUri.absoluteString)
-    }
+
+enum LaunchifyError: ErrorType {
+    case FreeLimitReached
+    case PaidLimitReached
 }
+
+// The following methods are found in LaunchifyPlaylistMangerExtension.swift in order to ensure target membership for this file includes both the Launchify and LaunchifyTodayExtension targets
+//  - getPlaylistsFromSpotify
 
 class LaunchifyPlaylistsManager {
     
-    /// Get playlists from Spotify
-    // TODO: Make this method parse for playlists that are in the pinned playlists as well and strip them out
-    class func getPlaylistsFromSpotify(completion: (playlists: [LaunchifyPlaylist]) -> ()) {
-        let session = SPTAuth.defaultInstance().session
-        var launchifyPlaylists = [LaunchifyPlaylist]()
-        SPTPlaylistList.playlistsForUserWithSession(session) { (error, playlists) in
-            if error != nil {
-                print("Error getting playlists: \(error)")
-            }
-            
-            // Success
-            if let safePlaylists = playlists as? SPTPlaylistList,
-                let spotifyPlaylists = safePlaylists.items as? [SPTPartialPlaylist] {
-                // Cast each spotify playlist as our own launchify playlist type and store them in an array to return
-                for spotifyPlaylist in spotifyPlaylists {
-                    // TODO: See TODO above
-                    launchifyPlaylists.append(LaunchifyPlaylist(sptPartialPlaylist: spotifyPlaylist))
-                }
-                
-                completion(playlists: launchifyPlaylists)
-            }
-        }
-        
+    /// Get the current playlist limit based on whether the increased limit has been purchased or not
+    class func currentPlaylistLimit() -> (limit: Int, paidLimit: Bool) {
+        let purchased = NSUserDefaults.standardUserDefaults().boolForKey(kPlaylistPaidLimitPurchasedKey)
+        return purchased ? (kPlaylistPaidLimit, true) : (kPlaylistFreeLimit, false)
     }
     
+    /// Effectively increases the playlist limit by setting the paid playlist limit purchased key to true
+    class func increasePlaylistLimit() {
+        NSUserDefaults.standardUserDefaults().setBool(true, forKey: kPlaylistPaidLimitPurchasedKey)
+    }
+
     /// Get archived playlists data from shared user defaults
     class func getPinnedPlaylistsArchived() -> [NSData] {
         if let archivedPlaylists = sharedUserDefaults.objectForKey(sharedPlaylistsArrayKey) as? [NSData] {
@@ -80,11 +69,22 @@ class LaunchifyPlaylistsManager {
         setPinnedPlaylists([])
     }
     
-    /// Add a playlist to the pinned playlists
+    /// Add a playlist to the pinned playlists, throws an error if the limit has been reached
     // TODO: This method unarchives and rearchives the entire list just to add one playlist, make it more efficient
-    class func addPinnedPlaylist(playlist: LaunchifyPlaylist) {
+    class func addPinnedPlaylist(playlist: LaunchifyPlaylist) throws {
         // Archive the playlist to be stored and then store it
         var pinnedPlaylists = LaunchifyPlaylistsManager.getPinnedPlaylists()
+        
+        // Check if the limit has been reached, throw an error if so
+        let limit = currentPlaylistLimit()
+        if pinnedPlaylists.count == limit.limit {
+            if limit.paidLimit {
+                throw LaunchifyError.PaidLimitReached
+            } else {
+                throw LaunchifyError.FreeLimitReached
+            }
+        }
+        
         pinnedPlaylists.append(playlist)
         LaunchifyPlaylistsManager.setPinnedPlaylists(pinnedPlaylists)
     }

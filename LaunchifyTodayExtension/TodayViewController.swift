@@ -40,19 +40,7 @@ class TodayViewController: UIViewController {
     
     // MARK: Helper Methods
     func updateTableData() {
-        tableData = []
-        
-        guard let decodedNSData = sharedUserDefaults.arrayForKey(sharedPlaylistsArrayKey) as? [NSData] else { return }
-        
-        for (index, data) in decodedNSData.enumerate() {
-            guard let decodedPlaylist = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? LaunchifyPlaylist else { return }
-            // TODO: Determine if this check should be performed here, or if the limit is set through the UI in the containing app
-            // Limit the number of playlists (do it here to conserve resources)
-            if index < kPlaylistLimit {
-                tableData.append(decodedPlaylist)
-            }
-        }
-        
+        tableData = LaunchifyPlaylistsManager.getPinnedPlaylists()
         todayView.playlistTableView.reloadData()
         updatePreferredContentSize()
     }

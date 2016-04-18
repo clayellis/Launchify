@@ -28,6 +28,7 @@ class PinnedPlaylistsViewController: PagingViewController {
     // Properties
     let transformKeyPath = "transform" // For Swift dynamic key/value observing
     
+    var footerView: UIView?
 
     // MARK: View Controller Life Cycle
     override func loadView() {
@@ -56,7 +57,7 @@ class PinnedPlaylistsViewController: PagingViewController {
         pinnedPlaylistsView.pinnedTableView.registerClass(
             PlaylistTableViewCell.self, forCellReuseIdentifier: PlaylistTableViewCell.pinnedReuseIdentifier)
         pinnedPlaylistsView.pinnedTableView.registerClass(
-            PinnedPlaylistShowTableViewCell.self, forCellReuseIdentifier: PinnedPlaylistShowTableViewCell.reuseIdentifier)
+            PinnedPlaylistFooterView.self, forHeaderFooterViewReuseIdentifier: PinnedPlaylistFooterView.reuseIdentifier)
     }
     
     func configureUnpinnedTableView() {
@@ -96,24 +97,14 @@ class PinnedPlaylistsViewController: PagingViewController {
     deinit {
         pagingController!.topBar.removeObserver(self, forKeyPath: transformKeyPath, context: &pagingContext)
     }
-
-    // MARK: - Playlist Pin / Unpin Methods
-    
-    func unpinToggleButtonTapped(sender: UIButton) {
-        
-    }
-    
-    func pinToggleButtonTapped(sender: UIButton) {
-        
-    }
-
 }
 
 
 // MARK: - UITableView(DataSource/Delegate)
 extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDelegate, LFPagingControllerAffectingScrollView {
     
-    // MARK: Data Source
+    // MARK: Header
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
@@ -137,11 +128,15 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
             return 55
         }
     }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
     
+    
+    // MARK: Rows
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-            return pinnedPlaylists.count + 1
+            return pinnedPlaylists.count
         }
             
         // Unpinned Table View
@@ -151,34 +146,15 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        // Pinned Table View
-        if tableView == pinnedPlaylistsView.pinnedTableView {
-            return indexPath.row < pinnedPlaylists.count ? 60 : 45
-        }
-            
-        // Unpinned Table View
-        else {
-            return 60
-        }
+        return 60
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-            if indexPath.row < pinnedPlaylists.count {
-                let pinnedCell = tableView.dequeueReusableCellWithIdentifier(
-                    PlaylistTableViewCell.pinnedReuseIdentifier, forIndexPath: indexPath) as! PlaylistTableViewCell
-                pinnedCell.configureCellWithPlaylist(pinnedPlaylists[indexPath.row])
-//                pinnedCell.configureAsLastCell(indexPath.row == pinnedPlaylists.count - 1)
-                return pinnedCell
-            } else {
-                let showPinnedPlaylistsCell = tableView.dequeueReusableCellWithIdentifier(
-                    PinnedPlaylistShowTableViewCell.reuseIdentifier, forIndexPath: indexPath) as! PinnedPlaylistShowTableViewCell
-                showPinnedPlaylistsCell.showPinnedPlaylistsButton.addTarget(
-                    pinnedPlaylistsView, action: #selector(pinnedPlaylistsView.showPinnedPlaylistsTapped(_:)), forControlEvents: .TouchUpInside)
-                pinnedPlaylistsView.showPinnedPlaylistsCell = showPinnedPlaylistsCell
-                return showPinnedPlaylistsCell
-            }
+            let pinnedCell = tableView.dequeueReusableCellWithIdentifier(PlaylistTableViewCell.pinnedReuseIdentifier, forIndexPath: indexPath) as! PlaylistTableViewCell
+            pinnedCell.configureCellWithPlaylist(pinnedPlaylists[indexPath.row])
+            return pinnedCell
         }
         
         // Unpinned Table View
@@ -188,11 +164,57 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
             return playlistCell
         }
     }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
     
+    
+    // MARK: Footer
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
+    func tableView(tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        // Pinned Table View
+        if tableView == pinnedPlaylistsView.pinnedTableView {
+            let pinnedFooterView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(PinnedPlaylistFooterView.reuseIdentifier) as! PinnedPlaylistFooterView
+            pinnedFooterView.showPinnedPlaylistsButton.addTarget(
+                pinnedPlaylistsView, action: #selector(pinnedPlaylistsView.showPinnedPlaylistsTapped(_:)), forControlEvents: .TouchUpInside)
+            pinnedPlaylistsView.pinnedFooterView = pinnedFooterView
+            return pinnedFooterView
+        }
+            
+        // Unpinned Table View
+        else {
+            return nil
+        }
+    }
+    
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        // Pinned Table View
+        if tableView == pinnedPlaylistsView.pinnedTableView {
+            return 45
+        }
+            
+        // Unpinned Table View
+        else {
+            return 0
+        }
+    }
+    
+    func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
+        // Only the pinned table has a footer, no need to check which table is being used
+        // Fade the footer view in
+        footerView = view
+        footerView!.alpha = 0
+        UIView.animateWithDuration(0.2, animations: {
+            self.footerView!.alpha = 1
+        })
+    }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
+    
+    
+    // MARK: Reordering 
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
     func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-            return indexPath.row < pinnedPlaylists.count
+            return true
         }
             
         // Unpinned Table View
@@ -200,56 +222,6 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
             return false
         }
     }
-    
-    func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
-        // Pinned Table View
-        if tableView == pinnedPlaylistsView.pinnedTableView {
-            // Fix the separator
-//            adjustTableViewCellSeparatorsInTableView(tableView, sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
-            
-            // Move the pinned playlists
-            LaunchifyPlaylistsManager.swapPlaylistsAtIndexes(sourceIndex: sourceIndexPath.row, destinationIndex: destinationIndexPath.row)
-        }
-            
-        // Unpinned Table View
-        else {
-            // ...
-        }
-    }
-    
-    // MARK: Delegate
-    
-    // Reordering
-    func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
-        // Pinned Table View
-        if tableView == pinnedPlaylistsView.pinnedTableView {
-            var destinationIndexPath: NSIndexPath!
-            let lastRow = tableView.numberOfRowsInSection(0) - 1
-            if proposedDestinationIndexPath.row >= lastRow {
-                destinationIndexPath = NSIndexPath(forRow: lastRow - 1, inSection: 0)
-            } else {
-                destinationIndexPath = proposedDestinationIndexPath
-            }
-            
-            // Fix the separators
-//            adjustTableViewCellSeparatorsInTableView(tableView, sourceIndexPath: sourceIndexPath, destinationIndexPath: destinationIndexPath)
-            
-            return destinationIndexPath
-        }
-            
-            // Unpinned Table View
-        else {
-            return sourceIndexPath
-        }
-    }
-    
-//    func adjustTableViewCellSeparatorsInTableView(tableView: UITableView, sourceIndexPath: NSIndexPath, destinationIndexPath: NSIndexPath) {
-//        print(sourceIndexPath, destinationIndexPath)
-//        let sourceCell = tableView.cellForRowAtIndexPath(sourceIndexPath) as! PlaylistTableViewCell
-//        let destinationCell = tableView.cellForRowAtIndexPath(destinationIndexPath) as! PlaylistTableViewCell
-//        sourceCell.configureAsLastCell(destinationIndexPath.row == pinnedPlaylists.count - 1)
-//        destinationCell.configureAsLastCell(sourceIndexPath.row == pinnedPlaylists.count - 1)
-//    }
     
     func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
         return .None
@@ -259,95 +231,126 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
         return false
     }
     
+    func tableView(tableView: UITableView, moveRowAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+        // Only the pinned table can move rows, no need to check which table is being used
+        pinnedPlaylists.shift(sourceIndex: sourceIndexPath.row, destinationIndex: destinationIndexPath.row)
+        LaunchifyPlaylistsManager.setPinnedPlaylists(pinnedPlaylists)
+    }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
+
+    
     // Selection
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 //        tableView.deselectRowAtIndexPath(indexPath, animated: true)
         
         let pinnedTable = pinnedPlaylistsView.pinnedTableView
         let unpinnedTable = pinnedPlaylistsView.unpinnedTableView
         
+        CATransaction.begin()
+        CATransaction.setCompletionBlock() {
+            pinnedTable.reloadData()
+        }
+        
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
             let playlist = pinnedPlaylists[indexPath.row]
             
-            // Remove the pinned
-            LaunchifyPlaylistsManager.removePinnedPlaylist(playlist)
-            pinnedTable.beginUpdates()
-            pinnedPlaylists.removeAtIndex(indexPath.row)
-            pinnedTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
-            pinnedTable.endUpdates()
-            
             // Add the unpinned
             unpinnedPlaylists.append(playlist)
             let targetIndexPath = NSIndexPath(forRow: pinnedPlaylists.count, inSection: 0)
-            unpinnedTable.beginUpdates()
             unpinnedTable.insertRowsAtIndexPaths([targetIndexPath], withRowAnimation: .Top)
-            unpinnedTable.endUpdates()
             
+            // Remove the pinned
+            LaunchifyPlaylistsManager.removePinnedPlaylist(playlist)
+            pinnedPlaylists.removeAtIndex(indexPath.row)
+            pinnedTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             pinnedPlaylistsView.adjustUnpinnedPlaylistsAfterUnpinning()
         }
             
         // Unpinned Table View
         else {
             // Show the pinned playlists (this will only occur if it was hidden)
-            pinnedPlaylistsView.showPinnedPlaylists(withSpring: true)
+            pinnedPlaylistsView.showPinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
             
             let playlist = unpinnedPlaylists[indexPath.row]
-
-            // Remove the unpinned
-            unpinnedTable.beginUpdates()
-            unpinnedPlaylists.removeAtIndex(indexPath.row)
-            unpinnedTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
-            unpinnedTable.endUpdates()
             
             // Add the pinned
-            LaunchifyPlaylistsManager.addPinnedPlaylist(playlist)
-            pinnedPlaylists.append(playlist)
-            let targetIndexPath = NSIndexPath(forRow: pinnedPlaylists.count - 1, inSection: 0)
-            pinnedTable.beginUpdates()
-            pinnedTable.insertRowsAtIndexPaths([targetIndexPath], withRowAnimation: .Top)
-            pinnedTable.endUpdates()
-            
-            pinnedPlaylistsView.adjustUnpinnedPlaylistsAfterPinning()
-        }
-    }
-    
-    func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
-        // Pinned Table View
-        if tableView == pinnedPlaylistsView.pinnedTableView {
-            // ...
-        }
-            
-        // Unpinned Table View
-        else {
-            // ...
+            do {
+                try LaunchifyPlaylistsManager.addPinnedPlaylist(playlist)
+                
+                pinnedPlaylists.append(playlist)
+                let targetIndexPath = NSIndexPath(forRow: pinnedPlaylists.count - 1, inSection: 0)
+                pinnedTable.insertRowsAtIndexPaths([targetIndexPath], withRowAnimation: .Top)
+                
+                // Remove the unpinned
+                unpinnedPlaylists.removeAtIndex(indexPath.row)
+                unpinnedTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
+                pinnedPlaylistsView.adjustUnpinnedPlaylistsAfterPinning()
+                
+            } catch LaunchifyError.FreeLimitReached {
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                
+                let alert = UIAlertController(title: "Limit Reached", message: "Bump your playlist limit to 5 for $1", preferredStyle: .Alert)
+                
+                let upgradeAction = UIAlertAction(title: "Upgrade", style: .Default) {
+                    action in
+                    LaunchifyPlaylistsManager.increasePlaylistLimit()
+                }
+                
+                let cancelAction = UIAlertAction(title: "I'll Upgrade Later", style: .Cancel, handler: nil)
+                
+                alert.addAction(upgradeAction)
+                alert.addAction(cancelAction)
+                
+                presentViewController(alert, animated: true, completion: nil)
+                
+                return print("Free limit reached")
+            } catch LaunchifyError.PaidLimitReached {
+                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                return print("Paid limit reached")
+            } catch {
+                // Unexpected error
+            }
         }
         
-        // FIXME: Crashed here once when the cell was a PinnedPlaylistShowTableViewCell
+//        UIView.animateWithDuration(0.03, animations: {
+            self.footerView!.alpha = 0
+//        })
+        
+        CATransaction.commit()
+    }
+    
+    func unpinToggleButtonTapped(sender: UIButton) {
+        
+    }
+    
+    func pinToggleButtonTapped(sender: UIButton) {
+        
+    }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
+    
+    
+    // MARK: Highlighting
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
+    func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlaylistTableViewCell
         cell.didHighlight()
     }
     
+    
     func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath) {
-        // Pinned Table View
-        if tableView == pinnedPlaylistsView.pinnedTableView {
-            // ...
-        }
-            
-        // Unpinned Table View
-        else {
-            // ...
-        }
-        
         let cell = tableView.cellForRowAtIndexPath(indexPath) as! PlaylistTableViewCell
 //        if !cell.selected {
             // TODO: Make this work so that when a user does selects a row it doesn't unhighlight
             cell.didUnhighlight()
 //        }
     }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
     
     
-    // MARK: Scroll View Delegate
+    // MARK: Scrolling (ScrollViewDelegate)
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
     func scrollViewDidScroll(scrollView: UIScrollView) {
         let tableView = scrollView as! UITableView
         // Pinned Table View
@@ -358,6 +361,12 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
         // Unpinned Table View
         else {
             pagingController?.affectingScrollViewDidScroll(scrollView)
+            let offsetY = scrollView.contentOffset.y
+            let threshold = -scrollView.contentInset.top - 100
+            print(offsetY, threshold)
+            if offsetY < threshold {
+                pinnedPlaylistsView.showPinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
+            }
         }
     }
     
@@ -399,4 +408,6 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
             pagingController?.scrollViewDidEndScrollingAnimation(scrollView)
         }
     }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
+    
 }

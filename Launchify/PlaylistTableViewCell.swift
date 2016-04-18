@@ -76,6 +76,17 @@ class PlaylistTableViewCell: UITableViewCell {
         toggleButton.addTarget(self, action: #selector(toggleButtonTouchUpInside(_:)), forControlEvents: .TouchUpInside)
     }
     
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if editing {
+            if let reorderControl = subviewWithClassName("UITableViewCellReorderControl"),
+                reorderControlImageView = reorderControl.subviewWithClassType(UIImageView.self) as? UIImageView {
+                reorderControlImageView.image = UIImage(named: "ReorderControl")!
+                reorderControlImageView.contentMode = .Center
+            }
+        }
+    }
+
     private func configureLayout() {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(toggleButton, titleLabel)
         
@@ -152,3 +163,6 @@ class PlaylistTableViewCell: UITableViewCell {
     }
     
 }
+
+
+

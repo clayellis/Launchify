@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Launchify/LFPagingController.swift"
-            timestampString = "482540973.307988"
+            timestampString = "482654403.795554"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "165"
-            endingLineNumber = "165"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "teardown()"
             landmarkType = "5">
          </BreakpointContent>
@@ -22,16 +22,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Launchify/PinnedPlaylistsViewController.swift"
-            timestampString = "482572658.436069"
+            filePath = "Launchify/PlaylistTableViewCell.swift"
+            timestampString = "482615952.20919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "274"
-            endingLineNumber = "274"
-            landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "setEditing(_:animated:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

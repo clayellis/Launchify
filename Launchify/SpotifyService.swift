@@ -60,8 +60,10 @@ public final class SpotifyService {
     }
     
     public class func logout() {
-        // Remove the current Spotify session from user defaults
-        NSUserDefaults.standardUserDefaults().removeObjectForKey(SPTAuth.defaultInstance().sessionUserDefaultsKey)
+        // Reset standard user defaults to remove:
+        // - Current Spotify Session
+        // - Reset the playlist limit
+        NSUserDefaults.resetStandardUserDefaults()
         // AppDelegate will handle all UI updates
         UIApplication.sharedApplication().openURL(kDeepLinkLogoutURI)
 
