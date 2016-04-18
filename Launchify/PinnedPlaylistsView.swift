@@ -11,7 +11,7 @@ import UIKit
 /// Discards touches that are below the lowest content
 class PinnedTableView: UITableView {
     override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
-        return point.y < contentSize.height
+        return point.y < contentSize.height + 10 // + 10 as an assistance buffer
     }
 }
 
@@ -25,10 +25,11 @@ class PinnedPlaylistsView: UIView {
     let pinnedBackroundView = UIView()
     let pinnedSeparator = UIView()
     let unpinnedTableView = UITableView(frame: .zero, style: .Grouped)
-    var pinnedFooterView: PinnedPlaylistFooterView? // Keep a reference to the footer for animations, state changes
+    let fauxPinnedHandle = UIImageView() // Sits behind the actual pinned handle (which disappears while rows are inserted/deleted from pinned)
+    var pinnedFooterView: PinnedPlaylistFooterView? // Maintain a reference in order to adjust the highlighted image after showing/hiding
     
     // Appearance Values
-    var pinnedSeparatorHeight: CGFloat = 0.8
+    var pinnedSeparatorHeight: CGFloat = 0.7
     
     // Stored Constraints
     var pinnedBackgroundViewHeight: NSLayoutConstraint!
@@ -40,14 +41,8 @@ class PinnedPlaylistsView: UIView {
     
     
     // Convenience Values
-    var pinnedTableViewHeightMinusLastRow: CGFloat {
-        return pinnedTableView.contentSize.height - pinnedTableViewLastRowHeight
-    }
-    
-    var pinnedTableViewLastRowHeight: CGFloat {
-        let numberOfRows = pinnedTableView.numberOfRowsInSection(0)
-        let lastRowIndexPath = NSIndexPath(forRow: numberOfRows - 1, inSection: 0)
-        return pinnedTableView.delegate!.tableView!(pinnedTableView, heightForRowAtIndexPath: lastRowIndexPath)
+    var pinnedTableViewHeightMinusFooter: CGFloat {
+        return pinnedTableView.contentSize.height - pinnedTableView.sectionFooterHeight
     }
     
     var currentTopBarHeight: CGFloat {
@@ -67,6 +62,7 @@ class PinnedPlaylistsView: UIView {
         // Add Subviews
         addSubview(unpinnedTableView)
         addSubview(pinnedBackroundView)
+        pinnedBackroundView.addSubview(fauxPinnedHandle)
         pinnedBackroundView.addSubview(pinnedSeparator)
         addSubview(pinnedTableView)
         
@@ -74,11 +70,17 @@ class PinnedPlaylistsView: UIView {
         clipsToBounds = true
         
         // Style Subviews
+        unpinnedTableView.sectionHeaderHeight = 0
+        pinnedTableView.rowHeight = 60
+        pinnedTableView.sectionFooterHeight = 25
         pinnedBackroundView.backgroundColor = .lfDarkGray()
         pinnedBackroundView.layer.shadowColor = UIColor.blackColor().CGColor
         pinnedBackroundView.layer.shadowOpacity = 0.7
         pinnedBackroundView.layer.shadowRadius = 15
         pinnedBackroundView.layer.shadowOffset = CGSize(width: 0, height: 7)
+        
+        fauxPinnedHandle.image = UIImage(named: "PinnedHandle_Normal")
+        fauxPinnedHandle.contentMode = .Center
         
         pinnedSeparator.backgroundColor = .lfSeparatorPinnedGray()
         
@@ -93,10 +95,13 @@ class PinnedPlaylistsView: UIView {
         pinnedTableView.delaysContentTouches = false
         
         // (Insets and offsets are set in configureInitialAppearance)
+        unpinnedTableView.sectionHeaderHeight = 55
+        unpinnedTableView.rowHeight = 60
+        unpinnedTableView.sectionFooterHeight = 0
         unpinnedTableView.backgroundColor = .lfMediumGray()
         unpinnedTableView.separatorColor = .lfSeparatorGray()
         unpinnedTableView.separatorInset = UIEdgeInsets(top: 0, left: 54, bottom: 0, right: 0)
-        unpinnedTableView.rowHeight = 60
+
         unpinnedTableView.delaysContentTouches = false
     }
     
@@ -119,7 +124,7 @@ class PinnedPlaylistsView: UIView {
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(pinnedBackroundView, pinnedSeparator, pinnedTableView, unpinnedTableView)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(pinnedBackroundView, fauxPinnedHandle, pinnedSeparator, pinnedTableView, unpinnedTableView)
         
         // Add Constraints
         pinnedBackgroundViewHeight = pinnedBackroundView.heightAnchor.constraintEqualToConstant(LFPagingController.topBarBarHeight)
@@ -129,6 +134,11 @@ class PinnedPlaylistsView: UIView {
             pinnedBackroundView.rightAnchor.constraintEqualToAnchor(rightAnchor),
             pinnedBackroundView.topAnchor.constraintEqualToAnchor(topAnchor),
             pinnedBackgroundViewHeight,
+            
+            fauxPinnedHandle.leftAnchor.constraintEqualToAnchor(pinnedBackroundView.leftAnchor),
+            fauxPinnedHandle.rightAnchor.constraintEqualToAnchor(pinnedBackroundView.rightAnchor),
+            fauxPinnedHandle.bottomAnchor.constraintEqualToAnchor(pinnedSeparator.topAnchor),
+            fauxPinnedHandle.heightAnchor.constraintEqualToConstant(pinnedTableView.sectionFooterHeight),
             
             pinnedSeparator.leftAnchor.constraintEqualToAnchor(pinnedBackroundView.leftAnchor),
             pinnedSeparator.rightAnchor.constraintEqualToAnchor(pinnedBackroundView.rightAnchor),
@@ -143,7 +153,9 @@ class PinnedPlaylistsView: UIView {
     func updatePinnedTableBackgroundHeight(withOffset offset: CGFloat) {
         pinnedBackgroundViewHeight.active = false
         pinnedBackgroundViewHeight.constant =
-            currentTopBarHeight + pinnedTableView.contentSize.height - (pinnedTableView.contentOffset.y + pinnedTableView.contentInset.top) + offset + pinnedSeparatorHeight
+            currentTopBarHeight + pinnedTableView.contentSize.height
+            - (pinnedTableView.contentOffset.y + pinnedTableView.contentInset.top)
+            + offset + pinnedSeparatorHeight
         pinnedBackgroundViewHeight.active = true
     }
 }
@@ -153,7 +165,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
     
     // MARK: LFPagingControllerPagingDelegate
     func pagingControll(affectingScrollViewDidScrollPastThreshold threshold: CGFloat, withOffset offset: CGFloat, draggingUp: Bool) {
-        let hideThreshold: CGFloat = threshold //+ 30
+        let hideThreshold: CGFloat = threshold + 45
         let showThreshold: CGFloat = threshold + 100
         if draggingUp && offset > hideThreshold && !pinnedPlaylistsHidden {
             hidePinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: false)
@@ -176,11 +188,11 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
             let threshold: CGFloat = 65
             if pinnedPlaylistsHidden {
                 if offsetY < -threshold {
-                    showPinnedPlaylists(withSpring: false, andScrollUnpinnedToTop: false)
+                    showPinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
                 }
             } else {
                 if offsetY > threshold {
-                    hidePinnedPlaylists(withSpring: false, andScrollUnpinnedToTop: false)
+                    hidePinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
                 }
             }
         }
@@ -222,7 +234,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
             UIView.animateWithDuration(0.3, animations: animations, completion: completion)
         }
         
-        pinnedFooterView?.inShowState = true
+        pinnedFooterView!.adjustImageToState(.Normal)
         adjustUnpinnedPlaylistsContent(andScrollToTop: scrollUnpinnedToTop)
     }
     
@@ -233,8 +245,8 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
         autoShowingPinnedPlaylists = false
         
         let animations: () -> Void = {
-            self.pinnedTableView.transform.ty = -self.pinnedTableViewHeightMinusLastRow
-            self.pinnedBackroundView.transform.ty = -self.pinnedTableViewHeightMinusLastRow
+            self.pinnedTableView.transform.ty = -self.pinnedTableViewHeightMinusFooter - self.pinnedSeparatorHeight
+            self.pinnedBackroundView.transform.ty = -self.pinnedTableViewHeightMinusFooter - self.pinnedSeparatorHeight
         }
         
         let completion: (Bool) -> Void = { _ in
@@ -251,13 +263,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
             UIView.animateWithDuration(0.3, animations: animations, completion: completion)
         }
         
-        // Fade in the the show pinned playlists cell
-//        UIView.animateWithDuration(0.2, delay: 0.2, options: [.BeginFromCurrentState], animations: {
-//            self.showPinnedPlaylistsCell?.alpha = 1
-//            }, completion: nil)
-        
-        pinnedFooterView?.inShowState = false
-        
+        pinnedFooterView!.adjustImageToState(.Normal)
         adjustUnpinnedPlaylistsContent(andScrollToTop: scrollUnpinnedToTop)
     }
     

@@ -79,6 +79,7 @@ class PinnedPlaylistsViewController: PagingViewController {
         super.didMoveToPagingController(pagingController)
         pinnedPlaylistsView.pagingController = pagingController
         // Attach the delegate (to receive delegate events)
+        pagingController.addPagingDelegate(self)
         pagingController.addPagingDelegate(pinnedPlaylistsView)
         // Begin observing top bar changes
         pagingController.topBar.addObserver(self, forKeyPath: transformKeyPath, options: .New, context: &pagingContext)
@@ -96,6 +97,17 @@ class PinnedPlaylistsViewController: PagingViewController {
 
     deinit {
         pagingController!.topBar.removeObserver(self, forKeyPath: transformKeyPath, context: &pagingContext)
+    }
+}
+
+// MARK: - LFPagingControllerPagingDelegate
+extension PinnedPlaylistsViewController: LFPagingControllerPagingDelegate {
+    func pagingControll(pageDidChangeToPageAtIndex index: Int) {
+        // Current Index
+        if index == 0 {
+            // Show the pinned playlists and scroll to the top to give context
+            pinnedPlaylistsView.showPinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
+        }
     }
 }
 
@@ -118,15 +130,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        // Pinned Table View
-        if tableView == pinnedPlaylistsView.pinnedTableView {
-            return 0
-        }
-            
-        // Unpinned Table View
-        else {
-            return 55
-        }
+        return tableView.sectionHeaderHeight
     }
     // -----------------------------------------------------------------------------------------------------------------------------------------^
     
@@ -146,7 +150,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 60
+        return tableView.rowHeight
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -173,8 +177,9 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
             let pinnedFooterView = tableView.dequeueReusableHeaderFooterViewWithIdentifier(PinnedPlaylistFooterView.reuseIdentifier) as! PinnedPlaylistFooterView
-            pinnedFooterView.showPinnedPlaylistsButton.addTarget(
-                pinnedPlaylistsView, action: #selector(pinnedPlaylistsView.showPinnedPlaylistsTapped(_:)), forControlEvents: .TouchUpInside)
+            // Using a tap gesture recognizer instead of a UIButton so we can still receive scrolling touches
+            let handleTapGestureRecognizer = UITapGestureRecognizer(target: pinnedPlaylistsView, action: #selector(pinnedPlaylistsView.showPinnedPlaylistsTapped(_:)))
+            pinnedFooterView.addGestureRecognizer(handleTapGestureRecognizer)
             pinnedPlaylistsView.pinnedFooterView = pinnedFooterView
             return pinnedFooterView
         }
@@ -186,15 +191,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        // Pinned Table View
-        if tableView == pinnedPlaylistsView.pinnedTableView {
-            return 45
-        }
-            
-        // Unpinned Table View
-        else {
-            return 0
-        }
+        return tableView.sectionFooterHeight
     }
     
     func tableView(tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int) {
@@ -356,6 +353,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
             pinnedPlaylistsView.pinnedPlaylistTableViewDidScroll()
+            pinnedPlaylistsView.pinnedFooterView?.adjustImageToState(.Highlighted)
         }
             
         // Unpinned Table View
@@ -374,7 +372,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
         let tableView = scrollView as! UITableView
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-            // ...
+            pinnedPlaylistsView.pinnedFooterView?.adjustImageToState(.Normal)
         }
             
         // Unpinned Table View
@@ -387,7 +385,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
         let tableView = scrollView as! UITableView
         // Pinned Table View
         if tableView == pinnedPlaylistsView.pinnedTableView {
-            // ...
+            pinnedPlaylistsView.pinnedFooterView?.adjustImageToState(.Normal)
         }
             
         // Unpinned Table View

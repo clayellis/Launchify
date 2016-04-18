@@ -65,11 +65,13 @@ extension UIColor {
 //    class func lfLightGray() -> UIColor { return UIColor(hexString: "A4A4A4")! }
 //    class func lfGreen() -> UIColor { return UIColor(hexString: "1ED760")! }
     
+    // Darker Scheme
     class func lfDarkestGray() -> UIColor { return UIColor(hexString: "101211")! }
     class func lfDarkGray() -> UIColor { return UIColor(hexString: "141615")! }
     class func lfMediumGray() -> UIColor { return UIColor(hexString: "1D1F1D")! }
     class func lfSeparatorGray() -> UIColor { return UIColor(hexString: "2A2929")! }
-    class func lfSeparatorPinnedGray() -> UIColor { return UIColor(hexString: "2C2C2C")! }
+    class func lfSeparatorPinnedGray() -> UIColor { return UIColor(hexString: "0D0D0D")! }
+    class func lfSeparatorUnpinnedGray() -> UIColor { return UIColor(hexString: "2C2C2C")! }
     class func lfLightGray() -> UIColor { return UIColor(hexString: "626262")! }
     class func lfPinnedHeaderTextGray() -> UIColor { return UIColor(hexString: "393939")! }
     class func lfGreen() -> UIColor { return UIColor(hexString: "1ED760")! }

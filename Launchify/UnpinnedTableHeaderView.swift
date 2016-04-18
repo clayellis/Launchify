@@ -43,7 +43,7 @@ class UnpinnedTableHeaderView: UITableViewHeaderFooterView {
         titleLabel.textColor = .lfPinnedHeaderTextGray()
         titleLabel.font = UIFont.systemFontOfSize(12, weight: UIFontWeightMedium)
         
-        bottomSeparator.backgroundColor = .lfSeparatorPinnedGray()
+        bottomSeparator.backgroundColor = .lfSeparatorUnpinnedGray()
     }
     
     func configureLayout() {

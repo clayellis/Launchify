@@ -9,7 +9,7 @@
 import UIKit
 
 
-class PagingContainerViewController: UIViewController {
+class PagingContainerViewController: UIViewController, LFPagingControllerPagingDelegate {
     
     // View
     let pagingView = PagingView()
