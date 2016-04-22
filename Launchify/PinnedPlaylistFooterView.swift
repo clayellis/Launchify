@@ -40,8 +40,6 @@ class PinnedPlaylistFooterView: UITableViewHeaderFooterView {
         
         // Style View
         contentView.backgroundColor = .lfDarkGray()
-//        preservesSuperviewLayoutMargins = false
-//        layoutMargins = UIEdgeInsetsZero
         
         // Style Subviews
         topSeparator.backgroundColor = .lfSeparatorPinnedGray()

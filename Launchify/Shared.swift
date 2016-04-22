@@ -9,7 +9,7 @@
 import UIKit
 
 // MARK: Application Constants
-let kPlaylistFreeLimit = 10
+let kPlaylistFreeLimit = 3
 let kPlaylistPaidLimit = 6
 let kPlaylistPaidLimitPurchasedKey = "PlaylistIncreasedLimitPurchased"
 

@@ -44,7 +44,7 @@ class TodayViewController: UIViewController {
         todayView.playlistTableView.reloadData()
         updatePreferredContentSize()
     }
-    
+
     func updatePreferredContentSize() {
         preferredContentSize = todayView.playlistTableView.contentSize
     }
@@ -76,15 +76,16 @@ extension TodayViewController: UITableViewDataSource, UITableViewDelegate {
 // MARK: - NCWidgetProviding
 extension TodayViewController: NCWidgetProviding {
     // TODO: Determine if this is going to be necessary
-//    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
-//        // Perform any setup necessary in order to update the view.
-//        
-//        // If an error is encountered, use NCUpdateResult.Failed
-//        // If there's no update required, use NCUpdateResult.NoData
-//        // If there's an update, use NCUpdateResult.NewData
-//        
-//        completionHandler(NCUpdateResult.NewData)
-//    }
+    func widgetPerformUpdateWithCompletionHandler(completionHandler: ((NCUpdateResult) -> Void)) {
+        // Perform any setup necessary in order to update the view.
+        
+        updateTableData()
+        // If an error is encountered, use NCUpdateResult.Failed
+        // If there's no update required, use NCUpdateResult.NoData
+        // If there's an update, use NCUpdateResult.NewData
+        
+        completionHandler(NCUpdateResult.NewData)
+    }
     
     func widgetMarginInsetsForProposedMarginInsets(defaultMarginInsets: UIEdgeInsets) -> UIEdgeInsets {
         var margins = defaultMarginInsets

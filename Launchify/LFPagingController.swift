@@ -49,7 +49,7 @@ public class LFPagingController: UIControl, UIScrollViewDelegate {
     var pagingDelegates: [LFPagingControllerPagingDelegate] = []
     
     // Parent View Controller
-    var parentViewController: UIViewController? {
+    weak var parentViewController: UIViewController? {
         didSet {
             titleLabel.text = parentViewController?.title
         }

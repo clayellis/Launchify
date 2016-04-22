@@ -17,9 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         // For Testing --------------------------------------------------------------------------------------------------------
-        var playlists = LaunchifyPlaylistsManager.getPinnedPlaylists()
         LaunchifyPlaylistsManager.resetPinnedPlaylists()
-        playlists = LaunchifyPlaylistsManager.getPinnedPlaylists()
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: kPlaylistPaidLimitPurchasedKey)
         // --------------------------------------------------------------------------------------------------------------------
         
@@ -28,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Continue loading application based on Spotify session state
         window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        // TODO: Set the window!.rootViewController to something else while loading
+        showLoadingViewController()
         
         SpotifyService.attemptRenewingSession(
             success: {
@@ -40,8 +38,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func activeSessionExists() -> Bool {
-        return SPTAuth.defaultInstance().session != nil
+    func showLoadingViewController() {
+        window!.rootViewController?.removeFromParentViewController()
+        window!.rootViewController = LoadingViewController()
+        window!.makeKeyAndVisible()
     }
     
     func showLoginViewController() {
@@ -102,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        }
         return false
     }
-    
+
 
     // MARK: - Not Being Used
     

@@ -13,7 +13,8 @@ class PagingContainerViewController: UIViewController, LFPagingControllerPagingD
     
     // View
     let pagingView = PagingView()
-    // --------------------------------
+    
+    // Paging Views
     let pinnedPlaylistsViewController = PinnedPlaylistsViewController()
     let needHelpViewController = NeedHelpViewController()
     
@@ -24,7 +25,8 @@ class PagingContainerViewController: UIViewController, LFPagingControllerPagingD
     
     
     
-    // MARK: View Controller Life Cycle
+    // MARK: Life Cycle
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
     override func loadView() {
         self.view = pagingView
     }
@@ -51,5 +53,27 @@ class PagingContainerViewController: UIViewController, LFPagingControllerPagingD
         pagingView.pagingController.addPagingViewController(pinnedPlaylistsViewController)
         pagingView.pagingController.addPagingViewController(needHelpViewController)
     }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
+    
+    // MARK: Animations
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
+    override func viewWillAppear(animated: Bool) {
+        // Animate in the views beyond the top level (title, page titles, subview trees of each paging view)
+        animateSubviewsInView(pagingView.pagingController.topBar)
+        animateSubviewsInView(pinnedPlaylistsViewController.view)
+        animateSubviewsInView(needHelpViewController.view)
+    }
+    
+    func animateSubviewsInView(view: UIView) {
+        for subview in view.subviews {
+            subview.alpha = 0
+            subview.transform = CGAffineTransformMakeScale(0.96, 0.96)
+            UIView.animateWithDuration(0.4, delay: 0, options: [.CurveEaseOut], animations: {
+                subview.alpha = 1
+                subview.transform = CGAffineTransformIdentity
+                }, completion: nil)
+        }
+    }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
     
 }

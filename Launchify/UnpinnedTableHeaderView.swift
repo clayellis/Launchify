@@ -40,7 +40,7 @@ class UnpinnedTableHeaderView: UITableViewHeaderFooterView {
         
         // Style Subviews
         titleLabel.text = "UNPINNED PLAYLISTS"
-        titleLabel.textColor = .lfPinnedHeaderTextGray()
+        titleLabel.textColor = .lfUnpinnedHeaderTextGray()
         titleLabel.font = UIFont.systemFontOfSize(12, weight: UIFontWeightMedium)
         
         bottomSeparator.backgroundColor = .lfSeparatorUnpinnedGray()

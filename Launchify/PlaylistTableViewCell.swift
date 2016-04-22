@@ -18,18 +18,25 @@ class PlaylistTableViewCell: UITableViewCell {
     let toggleButton = UIButton()
     let titleLabel = UILabel()
     
+    // State
+    var fake = false // When set to true, the contentView, separatorView, and reorderControl are all dimmed with low alphas
+    let fakeAlpha: CGFloat = 0.06
+    
     // MARK: - Initialization
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureSubviews()
         configureLayout()
     }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Configuration Methods
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
     private func configureSubviews() {
         // Add Subviews
         contentView.addSubview(toggleButton)
@@ -75,17 +82,6 @@ class PlaylistTableViewCell: UITableViewCell {
         backgroundColor = contentView.backgroundColor
         toggleButton.addTarget(self, action: #selector(toggleButtonTouchUpInside(_:)), forControlEvents: .TouchUpInside)
     }
-    
-    override func setEditing(editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        if editing {
-            if let reorderControl = subviewWithClassName("UITableViewCellReorderControl"),
-                reorderControlImageView = reorderControl.subviewWithClassType(UIImageView.self) as? UIImageView {
-                reorderControlImageView.image = UIImage(named: "ReorderControl")!
-                reorderControlImageView.contentMode = .Center
-            }
-        }
-    }
 
     private func configureLayout() {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(toggleButton, titleLabel)
@@ -107,16 +103,43 @@ class PlaylistTableViewCell: UITableViewCell {
         titleLabel.text = playlist.playlistTitle
     }
     
-//    internal func configureAsLastCell(last: Bool) {
-//        separatorInset = last ? UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//            : UIEdgeInsets(top: 0, left: 54, bottom: 0, right: 0)
-//    }
+    func makeFake(fake: Bool) {
+        self.fake = fake
+        contentView.alpha = fake ? fakeAlpha : 1
+        userInteractionEnabled = !fake
+        if let separator = subviewWithClassName("_UITableViewCellSeparatorView") {
+            separator.alpha = fake ? fakeAlpha + 0.4 : 1
+        }
+    }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
     
+    
+    // MARK: Toggle Button
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
     @objc private func toggleButtonTouchUpInside(sender: UIButton) {
         sender.selected = true
     }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
     
-    // MARK: - Animation Methods
+    
+    // MARK: Reorder Control
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        if editing {
+            if let reorderControl = subviewWithClassName("UITableViewCellReorderControl"),
+                reorderControlImageView = reorderControl.subviewWithClassType(UIImageView.self) as? UIImageView {
+                reorderControlImageView.image = UIImage(named: "ReorderControl")!
+                reorderControlImageView.contentMode = .Center
+                reorderControlImageView.alpha = fake ? fakeAlpha + 0.2 : 1
+            }
+        }
+    }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
+    
+
+    // MARK: Animation Methods
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
     func didHighlight() {
         if reuseIdentifier == PlaylistTableViewCell.pinnedReuseIdentifier {
             titleLabel.font = UIFont.systemFontOfSize(17)
@@ -161,6 +184,7 @@ class PlaylistTableViewCell: UITableViewCell {
         toggleButton.imageView!.layer.addAnimation(crossDissolve, forKey: "animateContents")
         toggleButton.setImage(normalImage, forState: .Normal)
     }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
     
 }
 

@@ -21,12 +21,18 @@ class PinnedPlaylistsView: UIView {
     var pagingController: LFPagingController?
     
     // Subviews
+    //  Subviews - Pinned
     let pinnedTableView = PinnedTableView()
     let pinnedBackroundView = UIView()
     let pinnedSeparator = UIView()
-    let unpinnedTableView = UITableView(frame: .zero, style: .Grouped)
     let fauxPinnedHandle = UIImageView() // Sits behind the actual pinned handle (which disappears while rows are inserted/deleted from pinned)
     var pinnedFooterView: PinnedPlaylistFooterView? // Maintain a reference in order to adjust the highlighted image after showing/hiding
+    let pinnedExplanationView = PinnedExplanationView()
+    
+    //  Subviews - Unpinned
+    let unpinnedRefreshControl = UIRefreshControl()
+    var unpinnedSearchBar: UISearchBar! // Initialize later in configureSubviews
+    let unpinnedTableView = UITableView(frame: .zero, style: .Grouped)
     
     // Appearance Values
     var pinnedSeparatorHeight: CGFloat = 0.7
@@ -61,10 +67,12 @@ class PinnedPlaylistsView: UIView {
     func configureSubviews() {
         // Add Subviews
         addSubview(unpinnedTableView)
+        unpinnedTableView.addSubview(unpinnedRefreshControl)
         addSubview(pinnedBackroundView)
         pinnedBackroundView.addSubview(fauxPinnedHandle)
         pinnedBackroundView.addSubview(pinnedSeparator)
         addSubview(pinnedTableView)
+        pinnedTableView.addSubview(pinnedExplanationView)
         
         // Style View
         clipsToBounds = true
@@ -94,6 +102,18 @@ class PinnedPlaylistsView: UIView {
         pinnedTableView.tableFooterView = UIView()
         pinnedTableView.delaysContentTouches = false
         
+        
+        let searchBarHeight: CGFloat = 60
+        unpinnedSearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 0, height: searchBarHeight))
+//        unpinnedSearchBar.searchFieldBackgroundPositionAdjustment = UIOffset(horizontal: 0, vertical: searchBarHeight / 4)
+        unpinnedSearchBar.searchBarStyle = .Minimal
+        unpinnedSearchBar.tintColor = .lfGreen()
+        unpinnedSearchBar.placeholder = "Search"
+        unpinnedSearchBar.keyboardAppearance = .Dark
+        let searchBarTextField = unpinnedSearchBar.valueForKey("searchField") as? UITextField
+        searchBarTextField?.textColor = .whiteColor()
+        unpinnedTableView.tableHeaderView = unpinnedSearchBar
+
         // (Insets and offsets are set in configureInitialAppearance)
         unpinnedTableView.sectionHeaderHeight = 55
         unpinnedTableView.rowHeight = 60
@@ -101,9 +121,10 @@ class PinnedPlaylistsView: UIView {
         unpinnedTableView.backgroundColor = .lfMediumGray()
         unpinnedTableView.separatorColor = .lfSeparatorGray()
         unpinnedTableView.separatorInset = UIEdgeInsets(top: 0, left: 54, bottom: 0, right: 0)
-
         unpinnedTableView.delaysContentTouches = false
+        unpinnedTableView.sendSubviewToBack(unpinnedRefreshControl)
     }
+
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -121,10 +142,13 @@ class PinnedPlaylistsView: UIView {
         pinnedTableView.reloadData()
         adjustUnpinnedPlaylistsContent(andScrollToTop: true)
         updatePinnedTableBackgroundHeight(withOffset: 0)
+        
+        // Hide the empty UI
+        hideEmptyUI()
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(pinnedBackroundView, fauxPinnedHandle, pinnedSeparator, pinnedTableView, unpinnedTableView)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse(pinnedBackroundView, fauxPinnedHandle, pinnedSeparator, pinnedTableView, pinnedExplanationView, unpinnedTableView)
         
         // Add Constraints
         pinnedBackgroundViewHeight = pinnedBackroundView.heightAnchor.constraintEqualToConstant(LFPagingController.topBarBarHeight)
@@ -143,7 +167,12 @@ class PinnedPlaylistsView: UIView {
             pinnedSeparator.leftAnchor.constraintEqualToAnchor(pinnedBackroundView.leftAnchor),
             pinnedSeparator.rightAnchor.constraintEqualToAnchor(pinnedBackroundView.rightAnchor),
             pinnedSeparator.bottomAnchor.constraintEqualToAnchor(pinnedBackroundView.bottomAnchor),
-            pinnedSeparator.heightAnchor.constraintEqualToConstant(pinnedSeparatorHeight)
+            pinnedSeparator.heightAnchor.constraintEqualToConstant(pinnedSeparatorHeight),
+            
+            pinnedExplanationView.topAnchor.constraintEqualToAnchor(pinnedTableView.topAnchor, constant: pinnedTableView.rowHeight),
+            pinnedExplanationView.leftAnchor.constraintEqualToAnchor(pinnedTableView.leftAnchor),
+            pinnedExplanationView.widthAnchor.constraintEqualToAnchor(pinnedTableView.widthAnchor),
+            pinnedExplanationView.heightAnchor.constraintEqualToConstant(pinnedTableView.rowHeight * 2)
             ])
     
         pinnedTableView.fillSuperview()
@@ -157,6 +186,18 @@ class PinnedPlaylistsView: UIView {
             - (pinnedTableView.contentOffset.y + pinnedTableView.contentInset.top)
             + offset + pinnedSeparatorHeight
         pinnedBackgroundViewHeight.active = true
+    }
+    
+    func showEmptyUI() {
+        UIView.animateWithDuration(0.7, animations: {
+            self.pinnedExplanationView.alpha = 1
+        })
+    }
+    
+    func hideEmptyUI() {
+//        UIView.animateWithDuration(0.4, animations: {
+            self.pinnedExplanationView.alpha = 0
+//        })
     }
 }
 
@@ -231,7 +272,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
             let options: UIViewAnimationOptions = [.BeginFromCurrentState, .LayoutSubviews, .AllowUserInteraction]
             UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: options, animations: animations, completion: completion)
         } else {
-            UIView.animateWithDuration(0.3, animations: animations, completion: completion)
+            UIView.animateWithDuration(0.4, animations: animations, completion: completion)
         }
         
         pinnedFooterView!.adjustImageToState(.Normal)
@@ -260,7 +301,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
             UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: options, animations: animations, completion: completion)
 
         } else {
-            UIView.animateWithDuration(0.3, animations: animations, completion: completion)
+            UIView.animateWithDuration(0.4, animations: animations, completion: completion)
         }
         
         pinnedFooterView!.adjustImageToState(.Normal)
@@ -272,7 +313,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
         let options: UIViewAnimationOptions = [.BeginFromCurrentState, .LayoutSubviews, .AllowUserInteraction]
         UIView.animateWithDuration(0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: options, animations: {
             self.unpinnedTableView.contentInset.top = self.currentTopBarHeight + self.pinnedTableView.contentSize.height + self.pinnedTableView.transform.ty
-            if scrollToTop { self.unpinnedTableView.contentOffset.y = -self.unpinnedTableView.contentInset.top }
+            if scrollToTop { self.unpinnedTableView.contentOffset.y = -self.unpinnedTableView.contentInset.top + self.unpinnedTableView.tableHeaderView!.frame.height}
             self.unpinnedTableView.scrollIndicatorInsets = self.unpinnedTableView.contentInset
             }, completion: nil)
     }

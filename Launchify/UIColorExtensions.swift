@@ -73,7 +73,8 @@ extension UIColor {
     class func lfSeparatorPinnedGray() -> UIColor { return UIColor(hexString: "0D0D0D")! }
     class func lfSeparatorUnpinnedGray() -> UIColor { return UIColor(hexString: "2C2C2C")! }
     class func lfLightGray() -> UIColor { return UIColor(hexString: "626262")! }
-    class func lfPinnedHeaderTextGray() -> UIColor { return UIColor(hexString: "393939")! }
+    class func lfPinnedExplanationTextGray() -> UIColor { return UIColor(hexString: "8A8A8A")! }
+    class func lfUnpinnedHeaderTextGray() -> UIColor { return UIColor(hexString: "393939")! }
     class func lfGreen() -> UIColor { return UIColor(hexString: "1ED760")! }
 }
 
