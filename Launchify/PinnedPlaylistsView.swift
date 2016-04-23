@@ -52,8 +52,11 @@ class PinnedPlaylistsView: UIView {
     
     var currentTopBarHeight: CGFloat {
         let normalTopBarHeight = LFPagingController.topBarBarHeight
-        let topBarOffset = pagingController!.topBar.transform.ty
-        return normalTopBarHeight + topBarOffset // (+ because transform is always negative)
+        if let topBarOffset = pagingController?.topBar.transform.ty {
+            return normalTopBarHeight + topBarOffset // (+ because transform is always negative)
+        } else {
+            return normalTopBarHeight
+        }
     }
     
     // MARK: - Initialization
@@ -90,7 +93,8 @@ class PinnedPlaylistsView: UIView {
         
         pinnedSeparator.backgroundColor = .lfSeparatorPinnedGray()
         
-        // (Insets and offsets are set in configureInitialAppearance)
+        pinnedTableView.contentInset = UIEdgeInsets(top: currentTopBarHeight, left: 0, bottom: 0, right: 0)
+        pinnedTableView.contentOffset.y = -pinnedTableView.contentInset.top
         pinnedTableView.editing = true
         pinnedTableView.allowsSelectionDuringEditing = true
         pinnedTableView.showsVerticalScrollIndicator = false
@@ -100,7 +104,6 @@ class PinnedPlaylistsView: UIView {
         pinnedTableView.tableFooterView = UIView()
         pinnedTableView.delaysContentTouches = false
         
-        // (Insets and offsets are set in configureInitialAppearance)
         unpinnedTableView.sectionHeaderHeight = 55
         unpinnedTableView.rowHeight = 60
         unpinnedTableView.sectionFooterHeight = 0
@@ -118,19 +121,9 @@ class PinnedPlaylistsView: UIView {
 //        pinnedBackroundView.layer.shadowPath = UIBezierPath(rect: pinnedBackroundView.bounds).CGPath
     }
     
-    // Called from viewWillAppear()
+    // Called from viewDidAppear()
     func configureInitialAppearance() {
-        pinnedTableView.contentInset = UIEdgeInsets(top: currentTopBarHeight, left: 0, bottom: 0, right: 0)
-        pinnedTableView.contentOffset.y = -pinnedTableView.contentInset.top
-        
-        // Force the pinned table view to load its data since adjustUpinnedPlaylistsContent relies on its content size
-        pinnedTableView.reloadData()
-//        adjustUnpinnedPlaylistsContent(andScrollToTop: true)
         updatePinnedAndUnpinnedTableConstraints()
-//        updatePinnedTableBackgroundHeight()
-//        updateUnpinnedTableViewTopIfNeeded()
-//        unpinnedTableView.contentOffset.y = -pinnedBackgroundViewHeight.constant - unpinnedTableView.tableHeaderView!.frame.height
-//         Hide the empty UI
         hideEmptyUI()
     }
     
@@ -173,16 +166,28 @@ class PinnedPlaylistsView: UIView {
     
     // MARK: - Empty UI
     func showEmptyUI() {
-        UIView.animateWithDuration(0.7, animations: {
+        UIView.animateWithDuration(0.7) {
             self.pinnedExplanationView.alpha = 1
-        })
+        }
     }
     
     func hideEmptyUI() {
         self.pinnedExplanationView.alpha = 0
     }
     
-    // MARK: Constraint Updating
+    func fadeOutCellForRowInTableView(tableView: UITableView, atIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        UIView.animateWithDuration(0.05) {
+            cell?.contentView.alpha = 0
+        }
+        
+        let delay = dispatch_time(DISPATCH_TIME_NOW, Int64(0.05 * Double(NSEC_PER_SEC)))
+        dispatch_after(delay, dispatch_get_main_queue()) {
+            cell?.hidden = true
+        }
+    }
+    
+    // MARK: - Constraint Updating
     
     // Convenience methods
     func updatePinnedAndUnpinnedTableConstraints(withOffset offset: CGFloat = 0) {
@@ -248,10 +253,12 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
             if pinnedPlaylistsHidden {
                 if offsetY < -threshold || (!draggingUp && velocity > velocityThreshold) {
                     showPinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
+                    pagingController?.resetScrollingValues()
                 }
             } else {
                 if offsetY > threshold || (draggingUp && velocity > velocityThreshold) {
                     hidePinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
+                    pagingController?.resetScrollingValues()
                 }
             }
         }

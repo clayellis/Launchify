@@ -23,7 +23,7 @@ class PinnedPlaylistsViewController: PagingViewController {
 //    var pinnedPlaylists = [LaunchifyPlaylist]()
     var pinnedPlaylists : [LaunchifyPlaylist] = [LaunchifyPlaylist(playlistTitle: "Number One", uri: ""),
                                                  LaunchifyPlaylist(playlistTitle: "Number Two", uri: "")]
-    var fakePinnedPlaylistsData: [LaunchifyPlaylist] = [LaunchifyPlaylist(playlistTitle: "Kelsey's Mix", uri: ""),
+    var emptyPinnedPlaylistsData: [LaunchifyPlaylist] = [LaunchifyPlaylist(playlistTitle: "Kelsey's Mix", uri: ""),
                                                          LaunchifyPlaylist(playlistTitle: "Camping With The Crew", uri: "")]
     
     // TDOO: Consider caching these playlists for quick loading (still check for new playlists and graciously insert them)
@@ -43,14 +43,9 @@ class PinnedPlaylistsViewController: PagingViewController {
         configurePinnedTableView()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        // Configure the initial appearance of the playlist view after everything has been loaded and the view is ready to appear
-//        pinnedPlaylistsView.configureInitialAppearance()
-    }
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        // Configure the initial appearance of the playlist view after everything has been loaded and the view has appeared
         pinnedPlaylistsView.configureInitialAppearance()
     }
     
@@ -168,7 +163,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
                 if pinnedPlaylists.count == 0 {
                     // Empty state
                     pinnedPlaylistsView.showEmptyUI()
-                    return 3
+                    return emptyPinnedPlaylistsData.count + 1
                 } else {
                     return 0
                 }
@@ -196,12 +191,13 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
                 // Empty state
                 if indexPath.row == 0 {
                     let explanationCell = tableView.dequeueReusableCellWithIdentifier(PinnedExplanationCell.reuseIdentifier, forIndexPath: indexPath) as! PinnedExplanationCell
+                    explanationCell.contentView.alpha = 1 // Could have been set to 0 in pinnedPlaylistView.fadeOutCellForRowAtIndexPath()
                     return explanationCell
                 } else {
-                    let fakePinnedCell = tableView.dequeueReusableCellWithIdentifier(PlaylistTableViewCell.pinnedReuseIdentifier, forIndexPath: indexPath) as! PlaylistTableViewCell
-                    fakePinnedCell.configureCellWithPlaylist(fakePinnedPlaylistsData[indexPath.row - 1])
-                    fakePinnedCell.makeFake(true)
-                    return fakePinnedCell
+                    let emptyPinnedCell = tableView.dequeueReusableCellWithIdentifier(PlaylistTableViewCell.pinnedReuseIdentifier, forIndexPath: indexPath) as! PlaylistTableViewCell
+                    emptyPinnedCell.configureCellWithPlaylist(emptyPinnedPlaylistsData[indexPath.row - 1])
+                    emptyPinnedCell.makeFake(true)
+                    return emptyPinnedCell
                 }
             } else {
                 // Non-Empty State
@@ -289,15 +285,21 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
         // Only the pinned table can move rows, no need to check which table is being used
         pinnedPlaylists.shift(sourceIndex: sourceIndexPath.row, destinationIndex: destinationIndexPath.row)
         LaunchifyPlaylistsManager.setPinnedPlaylists(pinnedPlaylists)
-        // Show the pinned footer again
-        // TODO: Animatie the alpha back in
+    }
+    
+    func tableView(tableView: UITableView, willBeginReorderingRowAtIndexPath indexPath: NSIndexPath) {
+        // Hide the footer view so the moving row will be shown over it
+        pinnedPlaylistsView.pinnedFooterView!.alpha = 0
+    }
+    
+    func tableView(tableView: UITableView, didEndReorderingRowAtIndexPath indexPath: NSIndexPath) {
+        // Show the footer view again
         pinnedPlaylistsView.pinnedFooterView!.alpha = 1
     }
-    func tableView(tableView: UITableView, targetIndexPathForMoveFromRowAtIndexPath sourceIndexPath: NSIndexPath, toProposedIndexPath proposedDestinationIndexPath: NSIndexPath) -> NSIndexPath {
-        // Hide the pinned footer so view go over the faux pinned handle and not behind the pinned footer
-        // TODO: This doesn't happen when it's the last row that's moving
-        pinnedPlaylistsView.pinnedFooterView!.alpha = 0
-        return proposedDestinationIndexPath
+    
+    func tableView(tableView: UITableView, didCancelReorderingRowAtIndexPath indexPath: NSIndexPath) {
+        // Show the footer view again
+        pinnedPlaylistsView.pinnedFooterView!.alpha = 1
     }
     // -----------------------------------------------------------------------------------------------------------------------------------------^
 
@@ -312,9 +314,8 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
         
         CATransaction.begin()
         CATransaction.setCompletionBlock() {
+            // Forces the pinned footer view to be reloaded at the bottom of its section (instead of the bottom of the screen)
             pinnedTable.reloadData()
-            // TODO: Make this happen earlier (while the rows are being inserted/deleted (this is only necessary when the empty ui disappears and you're adding pinned for the "first time")
-            self.pinnedPlaylistsView.updatePinnedTableBackgroundHeight()
         }
         
         // Pinned Table View
@@ -342,7 +343,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
                 pinnedPlaylistsView.adjustConstraintsAfterUnpinning()
             }
             
-            pinnedTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+            pinnedTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Top)
             pinnedTable.endUpdates()
         }
             
@@ -360,6 +361,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
                 pinnedTable.beginUpdates()
                 
                 if pinnedPlaylists.count == 0 {
+                    pinnedPlaylistsView.fadeOutCellForRowInTableView(pinnedTable, atIndexPath: NSIndexPath(forRow: 0, inSection: 0))
                     pinnedTable.deleteRowsAtIndexPaths([
                         NSIndexPath(forRow: 0, inSection: 0),
                         NSIndexPath(forRow: 1, inSection: 0),

@@ -18,6 +18,9 @@ class PlaylistTableViewCell: UITableViewCell {
     let toggleButton = UIButton()
     let titleLabel = UILabel()
     
+    // Stored Constraints
+    var titleLabelRight: NSLayoutConstraint!
+    
     // State
     var fake = false // When set to true, the contentView, separatorView, and reorderControl are all dimmed with low alphas
     let fakeAlpha: CGFloat = 0.06
@@ -87,6 +90,8 @@ class PlaylistTableViewCell: UITableViewCell {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(toggleButton, titleLabel)
         
         // Add Constraints
+        titleLabelRight = titleLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -15)
+        
         NSLayoutConstraint.activateConstraints([
             toggleButton.leftAnchor.constraintEqualToAnchor(contentView.leftAnchor),
             toggleButton.widthAnchor.constraintEqualToConstant(54),
@@ -94,6 +99,7 @@ class PlaylistTableViewCell: UITableViewCell {
             toggleButton.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor),
             
             titleLabel.leftAnchor.constraintEqualToAnchor(toggleButton.rightAnchor),
+            titleLabelRight,
             titleLabel.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor),
             ])
     }
@@ -132,6 +138,10 @@ class PlaylistTableViewCell: UITableViewCell {
                 reorderControlImageView.image = UIImage(named: "ReorderControl")!
                 reorderControlImageView.contentMode = .Center
                 reorderControlImageView.alpha = fake ? fakeAlpha + 0.2 : 1
+                
+                titleLabelRight.active = false
+                titleLabel.rightAnchor.constraintEqualToAnchor(reorderControl.leftAnchor, constant: -15)
+                titleLabelRight.active = true
             }
         }
     }
