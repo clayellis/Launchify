@@ -199,9 +199,10 @@ class PinnedPlaylistsView: UIView {
     // Constraint Updtaing Methods
     func updatePinnedTableBackgroundHeight(withOffset offset: CGFloat = 0) {
         pinnedBackgroundViewHeight.active = false
-        pinnedBackgroundViewHeight.constant =
-            currentTopBarHeight + pinnedTableView.contentSize.height + pinnedTableView.transform.ty + pinnedSeparatorHeight + offset
+        let updatedConstant = currentTopBarHeight + pinnedTableView.contentSize.height + pinnedTableView.transform.ty
+            + pinnedSeparatorHeight + offset
             - (pinnedTableView.contentOffset.y + pinnedTableView.contentInset.top)
+        pinnedBackgroundViewHeight.constant = max(updatedConstant, 0) // To prevent a negative height
         pinnedBackgroundViewHeight.active = true
     }
     
