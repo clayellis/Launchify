@@ -330,7 +330,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
         pinnedFooterView!.adjustImageToState(.Normal)
     }
     
-    func adjustUnpinnedPlaylistsAfterPinning() {
+    func adjustConstraintsAfterPinning() {
         layoutIfNeeded()
         UIView.animateWithDuration(0.4, animations: {
             self.updatePinnedAndUnpinnedTableConstraints(withOffset: self.pinnedTableView.rowHeight)
@@ -338,10 +338,26 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
         })
     }
     
-    func adjustUnpinnedPlaylistsAfterUnpinning() {
+    func adjustConstraintsAfterUnpinning() {
         layoutIfNeeded()
         UIView.animateWithDuration(0.4, animations: {
             self.updatePinnedAndUnpinnedTableConstraints(withOffset: -self.pinnedTableView.rowHeight)
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func adjustConstraintsForEmptyUI() {
+        layoutIfNeeded()
+        UIView.animateWithDuration(0.4, animations: {
+            self.updatePinnedAndUnpinnedTableConstraints(withOffset: self.pinnedTableView.rowHeight * 2)
+            self.layoutIfNeeded()
+        })
+    }
+    
+    func adjustConstraintsAfterEmptyUI() {
+        layoutIfNeeded()
+        UIView.animateWithDuration(0.4, animations: {
+            self.updatePinnedAndUnpinnedTableConstraints(withOffset: -self.pinnedTableView.rowHeight * 2)
             self.layoutIfNeeded()
         })
     }

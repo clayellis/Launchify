@@ -337,12 +337,13 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
                     NSIndexPath(forRow: 1, inSection: 0),
                     NSIndexPath(forRow: 2, inSection: 0)
                     ], withRowAnimation: .Automatic)
+                pinnedPlaylistsView.adjustConstraintsForEmptyUI()
+            } else {
+                pinnedPlaylistsView.adjustConstraintsAfterUnpinning()
             }
             
             pinnedTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
             pinnedTable.endUpdates()
-            
-            pinnedPlaylistsView.adjustUnpinnedPlaylistsAfterUnpinning()
         }
             
         // Unpinned Table View
@@ -364,6 +365,9 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
                         NSIndexPath(forRow: 1, inSection: 0),
                         NSIndexPath(forRow: 2, inSection: 0)
                         ], withRowAnimation: .Automatic)
+                    pinnedPlaylistsView.adjustConstraintsAfterEmptyUI()
+                } else {
+                    pinnedPlaylistsView.adjustConstraintsAfterPinning()
                 }
                 
                 pinnedPlaylists.append(playlist)
@@ -374,7 +378,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
                 // Remove the unpinned
                 unpinnedPlaylists.removeAtIndex(indexPath.row)
                 unpinnedTable.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Bottom)
-                pinnedPlaylistsView.adjustUnpinnedPlaylistsAfterPinning()
+                
                 
             } catch LaunchifyError.FreeLimitReached {
                 tableView.deselectRowAtIndexPath(indexPath, animated: true)
