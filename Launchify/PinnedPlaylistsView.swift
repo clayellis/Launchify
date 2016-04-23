@@ -30,8 +30,6 @@ class PinnedPlaylistsView: UIView {
     let pinnedExplanationView = PinnedExplanationView()
     
     //  Subviews - Unpinned
-    let unpinnedRefreshControl = UIRefreshControl()
-    var unpinnedSearchBar: UISearchBar! // Initialize later in configureSubviews
     let unpinnedTableView = UITableView(frame: .zero, style: .Grouped)
     
     // Appearance Values
@@ -67,7 +65,6 @@ class PinnedPlaylistsView: UIView {
     func configureSubviews() {
         // Add Subviews
         addSubview(unpinnedTableView)
-        unpinnedTableView.addSubview(unpinnedRefreshControl)
         addSubview(pinnedBackroundView)
         pinnedBackroundView.addSubview(fauxPinnedHandle)
         pinnedBackroundView.addSubview(pinnedSeparator)
@@ -102,18 +99,6 @@ class PinnedPlaylistsView: UIView {
         pinnedTableView.tableFooterView = UIView()
         pinnedTableView.delaysContentTouches = false
         
-        
-        let searchBarHeight: CGFloat = 60
-        unpinnedSearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 0, height: searchBarHeight))
-//        unpinnedSearchBar.searchFieldBackgroundPositionAdjustment = UIOffset(horizontal: 0, vertical: searchBarHeight / 4)
-        unpinnedSearchBar.searchBarStyle = .Minimal
-        unpinnedSearchBar.tintColor = .lfGreen()
-        unpinnedSearchBar.placeholder = "Search"
-        unpinnedSearchBar.keyboardAppearance = .Dark
-        let searchBarTextField = unpinnedSearchBar.valueForKey("searchField") as? UITextField
-        searchBarTextField?.textColor = .whiteColor()
-        unpinnedTableView.tableHeaderView = unpinnedSearchBar
-
         // (Insets and offsets are set in configureInitialAppearance)
         unpinnedTableView.sectionHeaderHeight = 55
         unpinnedTableView.rowHeight = 60
@@ -122,7 +107,6 @@ class PinnedPlaylistsView: UIView {
         unpinnedTableView.separatorColor = .lfSeparatorGray()
         unpinnedTableView.separatorInset = UIEdgeInsets(top: 0, left: 54, bottom: 0, right: 0)
         unpinnedTableView.delaysContentTouches = false
-        unpinnedTableView.sendSubviewToBack(unpinnedRefreshControl)
     }
 
     
@@ -313,7 +297,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
         let options: UIViewAnimationOptions = [.BeginFromCurrentState, .LayoutSubviews, .AllowUserInteraction]
         UIView.animateWithDuration(0.4, delay: 0.1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: options, animations: {
             self.unpinnedTableView.contentInset.top = self.currentTopBarHeight + self.pinnedTableView.contentSize.height + self.pinnedTableView.transform.ty
-            if scrollToTop { self.unpinnedTableView.contentOffset.y = -self.unpinnedTableView.contentInset.top + self.unpinnedTableView.tableHeaderView!.frame.height}
+            if scrollToTop { self.unpinnedTableView.contentOffset.y = -self.unpinnedTableView.contentInset.top }
             self.unpinnedTableView.scrollIndicatorInsets = self.unpinnedTableView.contentInset
             }, completion: nil)
     }

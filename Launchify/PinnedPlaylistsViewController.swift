@@ -80,11 +80,6 @@ class PinnedPlaylistsViewController: PagingViewController {
             PlaylistTableViewCell.self, forCellReuseIdentifier: PlaylistTableViewCell.unpinnedReuseIdentifier)
         pinnedPlaylistsView.unpinnedTableView.registerClass(
             UnpinnedTableHeaderView.self, forHeaderFooterViewReuseIdentifier: UnpinnedTableHeaderView.reuseIdentifier)
-        
-        pinnedPlaylistsView.unpinnedRefreshControl.addTarget(
-            self, action: #selector(unpinnedRefreshControlDidRefresh(_:)), forControlEvents: .ValueChanged)
-        
-        pinnedPlaylistsView.unpinnedSearchBar.delegate = self
     }
     
     override func didMoveToPagingController(pagingController: LFPagingController) {
@@ -121,43 +116,6 @@ extension PinnedPlaylistsViewController: LFPagingControllerPagingDelegate {
             // Show the pinned playlists and scroll to the top to give context
             pinnedPlaylistsView.showPinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
         }
-    }
-}
-
-
-// MARK: - Unpinned Refresh Control
-extension PinnedPlaylistsViewController {
-    func unpinnedRefreshControlDidRefresh(refreshControl: UIRefreshControl) {
-        LaunchifyPlaylistsManager.getPlaylistsFromSpotify { (playlists) in
-            self.unpinnedPlaylists = playlists
-            self.pinnedPlaylistsView.unpinnedTableView.reloadData()
-            refreshControl.endRefreshing()
-        }
-    }
-}
-
-// MARK: - UISearchBarDelegate
-extension PinnedPlaylistsViewController: UISearchBarDelegate {
-    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(true, animated: true)
-        pinnedPlaylistsView.hidePinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
-    }
-    
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        
-    }
-
-    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
-//        searchBar.setShowsCancelButton(false, animated: true)
-    }
-    
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
-        searchBar.setShowsCancelButton(false, animated: true)
-        searchBar.endEditing(true)
     }
 }
 
