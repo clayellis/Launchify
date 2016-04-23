@@ -30,8 +30,6 @@ class PinnedPlaylistsView: UIView {
     let pinnedExplanationView = PinnedExplanationView()
     
     //  Subviews - Unpinned
-    let unpinnedRefreshControl = UIRefreshControl()
-    var unpinnedSearchBar: UISearchBar! // Initialize later in configureSubviews
     let unpinnedTableView = UITableView(frame: .zero, style: .Grouped)
     
     // Appearance Values
@@ -68,7 +66,6 @@ class PinnedPlaylistsView: UIView {
     func configureSubviews() {
         // Add Subviews
         addSubview(unpinnedTableView)
-        unpinnedTableView.addSubview(unpinnedRefreshControl)
         addSubview(pinnedBackroundView)
         pinnedBackroundView.addSubview(fauxPinnedHandle)
         pinnedBackroundView.addSubview(pinnedSeparator)
@@ -103,18 +100,6 @@ class PinnedPlaylistsView: UIView {
         pinnedTableView.tableFooterView = UIView()
         pinnedTableView.delaysContentTouches = false
         
-        
-        let searchBarHeight: CGFloat = 60
-        unpinnedSearchBar = UISearchBar(frame: CGRect(x: 0, y: 0, width: 0, height: searchBarHeight))
-//        unpinnedSearchBar.searchFieldBackgroundPositionAdjustment = UIOffset(horizontal: 0, vertical: searchBarHeight / 4)
-        unpinnedSearchBar.searchBarStyle = .Minimal
-        unpinnedSearchBar.tintColor = .lfGreen()
-        unpinnedSearchBar.placeholder = "Search"
-        unpinnedSearchBar.keyboardAppearance = .Dark
-        let searchBarTextField = unpinnedSearchBar.valueForKey("searchField") as? UITextField
-        searchBarTextField?.textColor = .whiteColor()
-        unpinnedTableView.tableHeaderView = unpinnedSearchBar
-
         // (Insets and offsets are set in configureInitialAppearance)
         unpinnedTableView.sectionHeaderHeight = 55
         unpinnedTableView.rowHeight = 60
@@ -123,7 +108,6 @@ class PinnedPlaylistsView: UIView {
         unpinnedTableView.separatorColor = .lfSeparatorGray()
         unpinnedTableView.separatorInset = UIEdgeInsets(top: 0, left: 54, bottom: 0, right: 0)
         unpinnedTableView.delaysContentTouches = false
-        unpinnedTableView.sendSubviewToBack(unpinnedRefreshControl)
     }
 
     
@@ -185,7 +169,6 @@ class PinnedPlaylistsView: UIView {
             ])
     
         pinnedTableView.fillSuperview()
-//        unpinnedTableView.fillSuperview()
     }
     
     // MARK: - Empty UI
@@ -196,27 +179,20 @@ class PinnedPlaylistsView: UIView {
     }
     
     func hideEmptyUI() {
-        //        UIView.animateWithDuration(0.4, animations: {
         self.pinnedExplanationView.alpha = 0
-        //        })
     }
     
     // MARK: Constraint Updating
     
     // Convenience methods
-    func updatePinnedAndUnpinnedTableConstraints(withOffset offset: CGFloat) {
+    func updatePinnedAndUnpinnedTableConstraints(withOffset offset: CGFloat = 0) {
         // Automatically calls the update methods in the correct order, background height first, unpinned top second
         updatePinnedTableBackgroundHeight(withOffset: offset)
-        updateUnpinnedTableViewTop()
+        updateUnpinnedTableViewTop(withOffset: offset)
     }
-    
-    func updatePinnedAndUnpinnedTableConstraints() {
-        updatePinnedAndUnpinnedTableConstraints(withOffset: 0)
-    }
-    
     
     // Constraint Updtaing Methods
-    func updatePinnedTableBackgroundHeight(withOffset offset: CGFloat) {
+    func updatePinnedTableBackgroundHeight(withOffset offset: CGFloat = 0) {
         pinnedBackgroundViewHeight.active = false
         pinnedBackgroundViewHeight.constant =
             currentTopBarHeight + pinnedTableView.contentSize.height + pinnedTableView.transform.ty + pinnedSeparatorHeight + offset
@@ -224,13 +200,10 @@ class PinnedPlaylistsView: UIView {
         pinnedBackgroundViewHeight.active = true
     }
     
-    func updatePinnedTableBackgroundHeight() {
-        updatePinnedTableBackgroundHeight(withOffset: 0)
-    }
-    
-    func updateUnpinnedTableViewTop() {
+    func updateUnpinnedTableViewTop(withOffset offset: CGFloat = 0) {
         unpinnedTableViewTop.active = false
-        unpinnedTableViewTop.constant = pinnedBackgroundViewHeight.constant
+        unpinnedTableViewTop.constant =
+            currentTopBarHeight + pinnedTableView.contentSize.height + pinnedTableView.transform.ty + pinnedSeparatorHeight + offset
         unpinnedTableViewTop.active = true
     }
     
@@ -247,38 +220,49 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
         updatePinnedTableBackgroundHeight(withOffset: 0)
     }
 
-    func pagingControll(affectingScrollViewDidScrollPastThreshold threshold: CGFloat, withOffset offset: CGFloat, draggingUp: Bool) {
+    func pagingControll(pagingControl pagingControl: LFPagingController, affectingScrollViewDidScrollPastThreshold threshold: CGFloat, withOffset offset: CGFloat, draggingUp: Bool) {
         let hideThreshold: CGFloat = threshold + 45
         let showThreshold: CGFloat = threshold + 100
         if draggingUp && offset > hideThreshold && !pinnedPlaylistsHidden {
             hidePinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: false)
+            pagingControl.resetScrollingValues()
         } else if !draggingUp && offset > showThreshold && pinnedPlaylistsHidden {
             showPinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: false)
+            pagingControl.resetScrollingValues()
         }
     }
     
     
     // MARK: Scrolling
     func pinnedPlaylistTableViewDidScroll() {
+        // Keep the background behind the pinned playlists
+        updatePinnedTableBackgroundHeight()
+        
+        // Quickly open and close the pinned playlists based on state, velocity, and offset
         let offsetY = pinnedTableView.contentOffset.y + pinnedTableView.contentInset.top
         if !autoShowingPinnedPlaylists && !autoHidingPinnedPlaylists {
+            let draggingUp = pinnedTableView.panGestureRecognizer.translationInView(pinnedTableView).y < 0
+            let velocity = fabs(pinnedTableView.panGestureRecognizer.velocityInView(pinnedTableView).y)
+            let velocityThreshold: CGFloat = 500
             let threshold: CGFloat = 65
             if pinnedPlaylistsHidden {
-                if offsetY < -threshold {
+                if offsetY < -threshold || (!draggingUp && velocity > velocityThreshold) {
                     showPinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
                 }
             } else {
-                if offsetY > threshold {
+                if offsetY > threshold || (draggingUp && velocity > velocityThreshold) {
                     hidePinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
                 }
             }
         }
-        updatePinnedTableBackgroundHeight()
     }
     
     
     // MARK: Showing / Hiding
     func showPinnedPlaylistsTapped(sender: UIButton) {
+        // Reset the scrolling values on the paging controller to prevent a opening and closing the pinned playlists in quick succession
+        pagingController?.resetScrollingValues()
+        
         if pinnedPlaylistsHidden {
             showPinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
         } else {
@@ -307,8 +291,10 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
         
         if spring {
             let options: UIViewAnimationOptions = [.BeginFromCurrentState, .LayoutSubviews, .AllowUserInteraction]
+            self.layoutIfNeeded()
             UIView.animateWithDuration(0.4, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: options, animations: animations, completion: completion)
         } else {
+            self.layoutIfNeeded()
             UIView.animateWithDuration(0.4, animations: animations, completion: completion)
         }
         
@@ -344,12 +330,10 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
         pinnedFooterView!.adjustImageToState(.Normal)
     }
     
-    
     func adjustUnpinnedPlaylistsAfterPinning() {
         layoutIfNeeded()
         UIView.animateWithDuration(0.4, animations: {
-            self.updatePinnedTableBackgroundHeight(withOffset: self.pinnedTableView.rowHeight)
-            self.updateUnpinnedTableViewTop()
+            self.updatePinnedAndUnpinnedTableConstraints(withOffset: self.pinnedTableView.rowHeight)
             self.layoutIfNeeded()
         })
     }
@@ -357,8 +341,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
     func adjustUnpinnedPlaylistsAfterUnpinning() {
         layoutIfNeeded()
         UIView.animateWithDuration(0.4, animations: {
-            self.updatePinnedTableBackgroundHeight(withOffset: -self.pinnedTableView.rowHeight)
-            self.updateUnpinnedTableViewTop()
+            self.updatePinnedAndUnpinnedTableConstraints(withOffset: -self.pinnedTableView.rowHeight)
             self.layoutIfNeeded()
         })
     }

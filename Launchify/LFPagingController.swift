@@ -17,10 +17,10 @@ import UIKit
 // - : Use a height constraint instead of a transform when moving the top bar
 
 @objc protocol LFPagingControllerPagingDelegate: class {
-    optional func pagingControll(pageIsChangingFromPageAtIndex fromIndex: Int, toPageAtIndex toIndex: Int)
-    optional func pagingControll(pageDidChangeToPageAtIndex index: Int)
-    optional func pagingControll(pagingButtonTappedAtIndex index: Int)
-    optional func pagingControll(affectingScrollViewDidScrollPastThreshold threshold: CGFloat, withOffset offset: CGFloat, draggingUp: Bool)
+    optional func pagingControll(pagingControl pagingControl: LFPagingController, pageIsChangingFromPageAtIndex fromIndex: Int, toPageAtIndex toIndex: Int)
+    optional func pagingControll(pagingControl pagingControl: LFPagingController, pageDidChangeToPageAtIndex index: Int)
+    optional func pagingControll(pagingControl pagingControl: LFPagingController, pagingButtonTappedAtIndex index: Int)
+    optional func pagingControll(pagingControl pagingControl: LFPagingController, affectingScrollViewDidScrollPastThreshold threshold: CGFloat, withOffset offset: CGFloat, draggingUp: Bool)
 }
 
 class PagingViewController: UIViewController {
@@ -189,25 +189,25 @@ public class LFPagingController: UIControl, UIScrollViewDelegate {
     
     private func notifyPagingDelegates(pagingButtonTappedAtIndex index: Int) {
         for pagingDelegate in pagingDelegates {
-            pagingDelegate.pagingControll?(pagingButtonTappedAtIndex: index)
+            pagingDelegate.pagingControll?(pagingControl: self, pagingButtonTappedAtIndex: index)
         }
     }
     
     private func notifyPagingDelegates(pageDidChangeToPageAtIndex index: Int) {
         for pagingDelegate in pagingDelegates {
-            pagingDelegate.pagingControll?(pageDidChangeToPageAtIndex: index)
+            pagingDelegate.pagingControll?(pagingControl: self,pageDidChangeToPageAtIndex: index)
         }
     }
     
     private func notifyPagingDelegates(pageIsChangingFromPageAtIdex fromIndex: Int, toPageAtIndex toIndex: Int) {
         for pagingDelegate in pagingDelegates {
-            pagingDelegate.pagingControll?(pageIsChangingFromPageAtIndex: fromIndex, toPageAtIndex: toIndex)
+            pagingDelegate.pagingControll?(pagingControl: self,pageIsChangingFromPageAtIndex: fromIndex, toPageAtIndex: toIndex)
         }
     }
     
     private func notifyPagingDelegates(affectingScrollViewDidScrollPastThreshold threshold: CGFloat, withOffset offset: CGFloat, draggingUp: Bool) {
         for pagingDelegate in pagingDelegates {
-            pagingDelegate.pagingControll?(affectingScrollViewDidScrollPastThreshold: threshold, withOffset: offset, draggingUp: draggingUp)
+            pagingDelegate.pagingControll?(pagingControl: self,affectingScrollViewDidScrollPastThreshold: threshold, withOffset: offset, draggingUp: draggingUp)
         }
     }
     
@@ -403,7 +403,7 @@ public class LFPagingController: UIControl, UIScrollViewDelegate {
         topBarShouldAnimateDown = false
     }
     
-    private func resetScrollingValues() {
+    func resetScrollingValues() {
         previousOffsetX = 0
         // Resetting scroll amount allows for each swipe to be calculated individually
         scrollAmount = 0
