@@ -46,6 +46,11 @@ class PinnedPlaylistsViewController: PagingViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         // Configure the initial appearance of the playlist view after everything has been loaded and the view is ready to appear
+//        pinnedPlaylistsView.configureInitialAppearance()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         pinnedPlaylistsView.configureInitialAppearance()
     }
     
@@ -339,7 +344,7 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
     // -----------------------------------------------------------------------------------------------------------------------------------------^
 
     
-    // Selection
+    // MARK: Selection
     // -----------------------------------------------------------------------------------------------------------------------------------------v
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 //        tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -489,6 +494,8 @@ extension PinnedPlaylistsViewController: UITableViewDataSource, UITableViewDeleg
             if offsetY < threshold {
                 pinnedPlaylistsView.showPinnedPlaylists(withSpring: true, andScrollUnpinnedToTop: true)
             }
+            
+            
         }
     }
         
