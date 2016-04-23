@@ -243,7 +243,7 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
         if !autoShowingPinnedPlaylists && !autoHidingPinnedPlaylists {
             let draggingUp = pinnedTableView.panGestureRecognizer.translationInView(pinnedTableView).y < 0
             let velocity = fabs(pinnedTableView.panGestureRecognizer.velocityInView(pinnedTableView).y)
-            let velocityThreshold: CGFloat = 500
+            let velocityThreshold: CGFloat = 1100
             let threshold: CGFloat = 65
             if pinnedPlaylistsHidden {
                 if offsetY < -threshold || (!draggingUp && velocity > velocityThreshold) {
