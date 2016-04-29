@@ -47,7 +47,7 @@ class UnpinnedTableHeaderView: UITableViewHeaderFooterView {
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(titleLabel, bottomSeparator)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse([titleLabel, bottomSeparator])
         
         // Add Constraints
         NSLayoutConstraint.activateConstraints([

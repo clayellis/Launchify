@@ -49,7 +49,7 @@ class PinnedPlaylistFooterView: UITableViewHeaderFooterView {
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(topSeparator, pinnedHandle)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse([topSeparator, pinnedHandle])
         
         // Add Constraints
         NSLayoutConstraint.activateConstraints([

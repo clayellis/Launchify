@@ -10,16 +10,20 @@
 		6F0DCF391CC42D8F0090FBC4 /* LFMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D2C1CB78E5C002B43EF /* LFMath.swift */; };
 		6F0DCF3B1CC42F5C0090FBC4 /* LaunchifyPlaylistManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F0DCF3A1CC42F5C0090FBC4 /* LaunchifyPlaylistManagerExtension.swift */; };
 		6F0DCF3C1CC42FAB0090FBC4 /* LaunchifyPlaylistManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D401CB829D5002B43EF /* LaunchifyPlaylistManager.swift */; };
+		6F2C55341CCDE0B7002759B3 /* LFSafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F2C55331CCDE0B7002759B3 /* LFSafariViewController.swift */; };
 		6F47969E1CC980D90032B23E /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F47969D1CC980D90032B23E /* LoadingViewController.swift */; };
 		6F4796A01CC980DF0032B23E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F47969F1CC980DF0032B23E /* LoadingView.swift */; };
 		6F71E8111CC2146C002D0FAA /* SpotifyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F71E8101CC2146C002D0FAA /* SpotifyService.swift */; };
 		6F71E81A1CC30A12002D0FAA /* UnpinnedTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F71E8191CC30A12002D0FAA /* UnpinnedTableHeaderView.swift */; };
+		6F84DBF71CCD540300066846 /* AccountProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F84DBF61CCD540300066846 /* AccountProfileCell.swift */; };
+		6F84DBF91CCD545900066846 /* AccountRateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F84DBF81CCD545900066846 /* AccountRateCell.swift */; };
+		6F84DBFB1CCD548400066846 /* AccountOptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F84DBFA1CCD548400066846 /* AccountOptionCell.swift */; };
 		6F8A8D2B1CB78E31002B43EF /* LFPagingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D2A1CB78E31002B43EF /* LFPagingController.swift */; };
 		6F8A8D2D1CB78E5C002B43EF /* LFMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D2C1CB78E5C002B43EF /* LFMath.swift */; };
 		6F8A8D301CB78F93002B43EF /* PinnedPlaylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D2F1CB78F93002B43EF /* PinnedPlaylistsViewController.swift */; };
 		6F8A8D321CB78F9D002B43EF /* PinnedPlaylistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D311CB78F9D002B43EF /* PinnedPlaylistsView.swift */; };
-		6F8A8D371CB791EF002B43EF /* NeedHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D361CB791EF002B43EF /* NeedHelpView.swift */; };
-		6F8A8D3A1CB79254002B43EF /* NeedHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D391CB79254002B43EF /* NeedHelpViewController.swift */; };
+		6F8A8D371CB791EF002B43EF /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D361CB791EF002B43EF /* AccountView.swift */; };
+		6F8A8D3A1CB79254002B43EF /* AccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D391CB79254002B43EF /* AccountViewController.swift */; };
 		6F8A8D3C1CB79380002B43EF /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D3B1CB79380002B43EF /* UIColorExtensions.swift */; };
 		6F8A8D3E1CB81489002B43EF /* PlaylistTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F8A8D3D1CB81489002B43EF /* PlaylistTableViewCell.swift */; };
 		6F8A8D3F1CB8287B002B43EF /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF5A0F31CB1F28800F6CEEC /* Shared.swift */; };
@@ -81,16 +85,20 @@
 
 /* Begin PBXFileReference section */
 		6F0DCF3A1CC42F5C0090FBC4 /* LaunchifyPlaylistManagerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchifyPlaylistManagerExtension.swift; sourceTree = "<group>"; };
+		6F2C55331CCDE0B7002759B3 /* LFSafariViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LFSafariViewController.swift; sourceTree = "<group>"; };
 		6F47969D1CC980D90032B23E /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		6F47969F1CC980DF0032B23E /* LoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		6F71E8101CC2146C002D0FAA /* SpotifyService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpotifyService.swift; sourceTree = "<group>"; };
 		6F71E8191CC30A12002D0FAA /* UnpinnedTableHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnpinnedTableHeaderView.swift; sourceTree = "<group>"; };
+		6F84DBF61CCD540300066846 /* AccountProfileCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountProfileCell.swift; sourceTree = "<group>"; };
+		6F84DBF81CCD545900066846 /* AccountRateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountRateCell.swift; sourceTree = "<group>"; };
+		6F84DBFA1CCD548400066846 /* AccountOptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountOptionCell.swift; sourceTree = "<group>"; };
 		6F8A8D2A1CB78E31002B43EF /* LFPagingController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LFPagingController.swift; sourceTree = "<group>"; };
 		6F8A8D2C1CB78E5C002B43EF /* LFMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LFMath.swift; sourceTree = "<group>"; };
 		6F8A8D2F1CB78F93002B43EF /* PinnedPlaylistsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinnedPlaylistsViewController.swift; sourceTree = "<group>"; };
 		6F8A8D311CB78F9D002B43EF /* PinnedPlaylistsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinnedPlaylistsView.swift; sourceTree = "<group>"; };
-		6F8A8D361CB791EF002B43EF /* NeedHelpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeedHelpView.swift; sourceTree = "<group>"; };
-		6F8A8D391CB79254002B43EF /* NeedHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeedHelpViewController.swift; sourceTree = "<group>"; };
+		6F8A8D361CB791EF002B43EF /* AccountView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
+		6F8A8D391CB79254002B43EF /* AccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccountViewController.swift; sourceTree = "<group>"; };
 		6F8A8D3B1CB79380002B43EF /* UIColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		6F8A8D3D1CB81489002B43EF /* PlaylistTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaylistTableViewCell.swift; sourceTree = "<group>"; };
 		6F8A8D401CB829D5002B43EF /* LaunchifyPlaylistManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchifyPlaylistManager.swift; sourceTree = "<group>"; };
@@ -141,6 +149,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F2C55311CCD7046002759B3 /* Views For Table Views */ = {
+			isa = PBXGroup;
+			children = (
+				6FB9223F1CC5FD3300065455 /* PinnedExplanationCell.swift */,
+				6FB922411CC608E400065455 /* PinnedExplanationView.swift */,
+				6F8A8D3D1CB81489002B43EF /* PlaylistTableViewCell.swift */,
+				6F8A8D421CB9580A002B43EF /* PinnedPlaylistFooterView.swift */,
+				6F71E8191CC30A12002D0FAA /* UnpinnedTableHeaderView.swift */,
+			);
+			name = "Views For Table Views";
+			sourceTree = "<group>";
+		};
+		6F2C55321CCD7054002759B3 /* View For Table Views */ = {
+			isa = PBXGroup;
+			children = (
+				6F84DBF61CCD540300066846 /* AccountProfileCell.swift */,
+				6F84DBF81CCD545900066846 /* AccountRateCell.swift */,
+				6F84DBFA1CCD548400066846 /* AccountOptionCell.swift */,
+			);
+			name = "View For Table Views";
+			sourceTree = "<group>";
+		};
 		6F47969C1CC980C00032B23E /* Loading */ = {
 			isa = PBXGroup;
 			children = (
@@ -154,6 +184,8 @@
 			isa = PBXGroup;
 			children = (
 				6F71E8101CC2146C002D0FAA /* SpotifyService.swift */,
+				6F8A8D401CB829D5002B43EF /* LaunchifyPlaylistManager.swift */,
+				6F0DCF3A1CC42F5C0090FBC4 /* LaunchifyPlaylistManagerExtension.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -180,11 +212,7 @@
 			children = (
 				6F8A8D2F1CB78F93002B43EF /* PinnedPlaylistsViewController.swift */,
 				6F8A8D311CB78F9D002B43EF /* PinnedPlaylistsView.swift */,
-				6FB9223F1CC5FD3300065455 /* PinnedExplanationCell.swift */,
-				6FB922411CC608E400065455 /* PinnedExplanationView.swift */,
-				6F8A8D3D1CB81489002B43EF /* PlaylistTableViewCell.swift */,
-				6F8A8D421CB9580A002B43EF /* PinnedPlaylistFooterView.swift */,
-				6F71E8191CC30A12002D0FAA /* UnpinnedTableHeaderView.swift */,
+				6F2C55311CCD7046002759B3 /* Views For Table Views */,
 			);
 			name = "Pinned Playlists";
 			sourceTree = "<group>";
@@ -198,13 +226,14 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
-		6F8A8D381CB791F7002B43EF /* Need Help */ = {
+		6F8A8D381CB791F7002B43EF /* Account */ = {
 			isa = PBXGroup;
 			children = (
-				6F8A8D391CB79254002B43EF /* NeedHelpViewController.swift */,
-				6F8A8D361CB791EF002B43EF /* NeedHelpView.swift */,
+				6F8A8D391CB79254002B43EF /* AccountViewController.swift */,
+				6F8A8D361CB791EF002B43EF /* AccountView.swift */,
+				6F2C55321CCD7054002759B3 /* View For Table Views */,
 			);
-			name = "Need Help";
+			name = Account;
 			sourceTree = "<group>";
 		};
 		6FF5A0B81CB1B4B400F6CEEC = {
@@ -230,16 +259,15 @@
 			isa = PBXGroup;
 			children = (
 				6FF5A0C41CB1B4B400F6CEEC /* AppDelegate.swift */,
-				6F8A8D401CB829D5002B43EF /* LaunchifyPlaylistManager.swift */,
-				6F0DCF3A1CC42F5C0090FBC4 /* LaunchifyPlaylistManagerExtension.swift */,
+				6FF5A0F31CB1F28800F6CEEC /* Shared.swift */,
 				6F71E8121CC21471002D0FAA /* Services */,
 				6F47969C1CC980C00032B23E /* Loading */,
 				6F8A8D351CB791A4002B43EF /* Login */,
 				6F8A8D331CB7916F002B43EF /* Paging */,
 				6F8A8D341CB79192002B43EF /* Pinned Playlists */,
-				6F8A8D381CB791F7002B43EF /* Need Help */,
+				6F8A8D381CB791F7002B43EF /* Account */,
 				6F8A8D2E1CB78ECC002B43EF /* Controls */,
-				6FF5A1131CB251F300F6CEEC /* Helpers */,
+				6FF5A1131CB251F300F6CEEC /* Extensions */,
 				6FF5A0CA1CB1B4B400F6CEEC /* Info.plist */,
 				6FF5A0CC1CB1B4B400F6CEEC /* Assets.xcassets */,
 				6FF5A0CE1CB1B4B400F6CEEC /* LaunchScreen.storyboard */,
@@ -269,16 +297,16 @@
 			path = LaunchifyTodayExtension;
 			sourceTree = "<group>";
 		};
-		6FF5A1131CB251F300F6CEEC /* Helpers */ = {
+		6FF5A1131CB251F300F6CEEC /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				6FF5A1121CB24D9E00F6CEEC /* Launchify-Bridging-Header.h */,
 				6FF5A0D61CB1B59600F6CEEC /* UIViewExtensions.swift */,
 				6F8A8D2C1CB78E5C002B43EF /* LFMath.swift */,
 				6F8A8D3B1CB79380002B43EF /* UIColorExtensions.swift */,
-				6FF5A0F31CB1F28800F6CEEC /* Shared.swift */,
+				6F2C55331CCDE0B7002759B3 /* LFSafariViewController.swift */,
 			);
-			name = Helpers;
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -396,12 +424,15 @@
 			files = (
 				6FF5A0C51CB1B4B400F6CEEC /* AppDelegate.swift in Sources */,
 				6F8A8D3C1CB79380002B43EF /* UIColorExtensions.swift in Sources */,
+				6F2C55341CCDE0B7002759B3 /* LFSafariViewController.swift in Sources */,
 				6FF5A0F41CB1F28800F6CEEC /* Shared.swift in Sources */,
 				6F0DCF3B1CC42F5C0090FBC4 /* LaunchifyPlaylistManagerExtension.swift in Sources */,
+				6F84DBF71CCD540300066846 /* AccountProfileCell.swift in Sources */,
 				6F8A8D301CB78F93002B43EF /* PinnedPlaylistsViewController.swift in Sources */,
 				6F4796A01CC980DF0032B23E /* LoadingView.swift in Sources */,
-				6F8A8D3A1CB79254002B43EF /* NeedHelpViewController.swift in Sources */,
+				6F8A8D3A1CB79254002B43EF /* AccountViewController.swift in Sources */,
 				6F8A8D431CB9580A002B43EF /* PinnedPlaylistFooterView.swift in Sources */,
+				6F84DBF91CCD545900066846 /* AccountRateCell.swift in Sources */,
 				6F8A8D3E1CB81489002B43EF /* PlaylistTableViewCell.swift in Sources */,
 				6FF5A0C91CB1B4B400F6CEEC /* LoginView.swift in Sources */,
 				6FF5A1171CB256CA00F6CEEC /* PagingView.swift in Sources */,
@@ -413,7 +444,8 @@
 				6FF5A0D71CB1B59600F6CEEC /* UIViewExtensions.swift in Sources */,
 				6F8A8D2D1CB78E5C002B43EF /* LFMath.swift in Sources */,
 				6FF5A1151CB2567A00F6CEEC /* PagingContainerViewController.swift in Sources */,
-				6F8A8D371CB791EF002B43EF /* NeedHelpView.swift in Sources */,
+				6F84DBFB1CCD548400066846 /* AccountOptionCell.swift in Sources */,
+				6F8A8D371CB791EF002B43EF /* AccountView.swift in Sources */,
 				6FB922401CC5FD3300065455 /* PinnedExplanationCell.swift in Sources */,
 				6FF5A0C71CB1B4B400F6CEEC /* LoginViewController.swift in Sources */,
 				6F71E8111CC2146C002D0FAA /* SpotifyService.swift in Sources */,
@@ -547,16 +579,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Launchify/Launchify.entitlements;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Launchify/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Spotify.framework/Headers";
 				INFOPLIST_FILE = Launchify/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = clayellis.Launchify;
+				PRODUCT_BUNDLE_IDENTIFIER = appsidian.Launchify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Launchify/Launchify-Bridging-Header.h";
 			};
@@ -568,16 +596,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Launchify/Launchify.entitlements;
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/Launchify/Carthage/Build/iOS",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)";
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Spotify.framework/Headers";
 				INFOPLIST_FILE = Launchify/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = clayellis.Launchify;
+				PRODUCT_BUNDLE_IDENTIFIER = appsidian.Launchify;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/Launchify/Launchify-Bridging-Header.h";
 			};
@@ -590,7 +614,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = LaunchifyTodayExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = clayellis.Launchify.LaunchifyTodayExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = appsidian.Launchify.LaunchifyTodayExtension;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -604,7 +628,7 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = LaunchifyTodayExtension/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = clayellis.Launchify.LaunchifyTodayExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = appsidian.Launchify.LaunchifyTodayExtension;
 				PRODUCT_MODULE_NAME = "$(PRODUCT_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

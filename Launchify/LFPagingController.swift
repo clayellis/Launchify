@@ -117,7 +117,7 @@ public class LFPagingController: UIControl, UIScrollViewDelegate {
     
     private func configureLayout() {
         setTranslatesAutoresizingMaskIntoConstraintsToFalse(
-            topBar, titleLabel, pagingButtonsStackView, selectionIndicator, pagingScrollView)
+            [topBar, titleLabel, pagingButtonsStackView, selectionIndicator, pagingScrollView])
         
         // Add Constraints
         selectionIndicatorCenterXConstraint = selectionIndicator.centerXAnchor.constraintEqualToAnchor(centerXAnchor)
@@ -223,7 +223,8 @@ public class LFPagingController: UIControl, UIScrollViewDelegate {
         guard let parentViewController = parentViewController else {
             return print("LFPagingController view controller not added. Set parentViewController before continuing. Apple requires that custom container views signal to their children that they have moved to a new parent view controller. \"If you are implementing your own container view controller, it must call the didMoveToParentViewController: method of the child view controller after the transition to the new controller is complete...\"")
         }
-        parentViewController.didMoveToParentViewController(pagingViewController)
+        parentViewController.addChildViewController(pagingViewController)
+        pagingViewController.didMoveToParentViewController(parentViewController)
         pagingViewController.loadViewIfNeeded()
         
         // Add the new paging view controller to the array of paging view controllers

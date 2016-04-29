@@ -33,7 +33,7 @@ class LoginView: UIView {
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(loginButton)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse([loginButton])
         
         // Add Constraints
         loginButton.fillSuperview()

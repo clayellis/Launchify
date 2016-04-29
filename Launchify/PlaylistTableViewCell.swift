@@ -62,9 +62,9 @@ class PlaylistTableViewCell: UITableViewCell {
             titleLabel.textColor = .whiteColor()
             titleLabel.font = UIFont.systemFontOfSize(18)
             
-            let selectionView = UIView()
-            selectionView.backgroundColor = .lfDarkestGray()
-            selectedBackgroundView = selectionView
+            let viewForSelectedBackgroundView = UIView()
+            viewForSelectedBackgroundView.backgroundColor = .lfDarkestGray()
+            selectedBackgroundView = viewForSelectedBackgroundView
         
         } else if reuseIdentifier == PlaylistTableViewCell.unpinnedReuseIdentifier {
             // Cell color
@@ -77,9 +77,9 @@ class PlaylistTableViewCell: UITableViewCell {
             titleLabel.textColor = .lfLightGray()
             titleLabel.font = UIFont.systemFontOfSize(17)
             
-            let selectionView = UIView()
-            selectionView.backgroundColor = .lfGreen()
-            selectedBackgroundView = selectionView
+            let viewForSelectedBackgroundView = UIView()
+            viewForSelectedBackgroundView.backgroundColor = .lfGreen()
+            selectedBackgroundView = viewForSelectedBackgroundView
         }
         
         backgroundColor = contentView.backgroundColor
@@ -87,7 +87,7 @@ class PlaylistTableViewCell: UITableViewCell {
     }
 
     private func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(toggleButton, titleLabel)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse([toggleButton, titleLabel])
         
         // Add Constraints
         titleLabelRight = titleLabel.rightAnchor.constraintEqualToAnchor(contentView.rightAnchor, constant: -15)

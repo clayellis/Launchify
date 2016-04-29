@@ -76,6 +76,7 @@ class PinnedPlaylistsView: UIView {
         pinnedTableView.addSubview(pinnedExplanationView)
         
         // Style View
+        backgroundColor = .lfMediumGray()
         clipsToBounds = true
         
         // Style Subviews
@@ -128,7 +129,7 @@ class PinnedPlaylistsView: UIView {
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(pinnedBackroundView, fauxPinnedHandle, pinnedSeparator, pinnedTableView, pinnedExplanationView, unpinnedTableView)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse([pinnedBackroundView, fauxPinnedHandle, pinnedSeparator, pinnedTableView, pinnedExplanationView, unpinnedTableView])
         
         // Add Constraints
         pinnedBackgroundViewHeight = pinnedBackroundView.heightAnchor.constraintEqualToConstant(LFPagingController.topBarBarHeight)
@@ -316,7 +317,8 @@ extension PinnedPlaylistsView: LFPagingControllerPagingDelegate {
         autoShowingPinnedPlaylists = false
         
         let animations: () -> Void = {
-            self.pinnedTableView.transform.ty = -self.pinnedTableViewHeightMinusFooter - self.pinnedSeparatorHeight
+            let maxTy = self.frame.height - self.currentTopBarHeight
+            self.pinnedTableView.transform.ty = min(-self.pinnedTableViewHeightMinusFooter - self.pinnedSeparatorHeight, maxTy)
             self.updatePinnedAndUnpinnedTableConstraints()
             self.layoutIfNeeded()
         }

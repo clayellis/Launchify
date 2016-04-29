@@ -25,13 +25,13 @@ class PagingView: UIView {
         addSubview(pagingController)
         
         // Style View
-        backgroundColor = .lfMediumGray()
+        backgroundColor = .lfDarkestGray()
         
         // Style Subviews
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(pagingController)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse([pagingController])
         
         // Add Constraints
         pagingController.fillSuperview()

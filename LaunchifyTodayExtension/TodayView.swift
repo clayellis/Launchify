@@ -33,7 +33,7 @@ class TodayView: UIView {
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(playlistTableView)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse([playlistTableView])
         
         // Add Constraints
         playlistTableView.fillSuperview()

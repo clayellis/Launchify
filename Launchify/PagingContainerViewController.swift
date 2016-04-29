@@ -16,7 +16,7 @@ class PagingContainerViewController: UIViewController, LFPagingControllerPagingD
     
     // Paging Views
     let pinnedPlaylistsViewController = PinnedPlaylistsViewController()
-    let needHelpViewController = NeedHelpViewController()
+    let accountViewController = AccountViewController()
     
     // Model
     
@@ -47,11 +47,11 @@ class PagingContainerViewController: UIViewController, LFPagingControllerPagingD
         
         // Set the titles on the view controllers to add as paging view controllers
         pinnedPlaylistsViewController.title = "Pinned Playlists"
-        needHelpViewController.title = "Need Help?"
+        accountViewController.title = "Account"
         
         // Add the paging view controllers to the paging controller
         pagingView.pagingController.addPagingViewController(pinnedPlaylistsViewController)
-        pagingView.pagingController.addPagingViewController(needHelpViewController)
+        pagingView.pagingController.addPagingViewController(accountViewController)
     }
     // -----------------------------------------------------------------------------------------------------------------------------------------^
     
@@ -61,7 +61,7 @@ class PagingContainerViewController: UIViewController, LFPagingControllerPagingD
         // Animate in the views beyond the top level (title, page titles, subview trees of each paging view)
         animateSubviewsInView(pagingView.pagingController.topBar)
         animateSubviewsInView(pinnedPlaylistsViewController.view)
-        animateSubviewsInView(needHelpViewController.view)
+        animateSubviewsInView(accountViewController.view)
     }
     
     func animateSubviewsInView(view: UIView) {
@@ -76,4 +76,14 @@ class PagingContainerViewController: UIViewController, LFPagingControllerPagingD
     }
     // -----------------------------------------------------------------------------------------------------------------------------------------^
     
+    // MARK: View Controller Appearance
+    // -----------------------------------------------------------------------------------------------------------------------------------------v
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return .LightContent
+    }
+    
+    override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
+        return .Fade
+    }
+    // -----------------------------------------------------------------------------------------------------------------------------------------^
 }

@@ -52,7 +52,7 @@ class PinnedExplanationView: UIView {
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(explanationContainer, explanationPrefixLabel, toggleButton, explanationSuffixLabel)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse([explanationContainer, explanationPrefixLabel, toggleButton, explanationSuffixLabel])
         
         // Add Constraints
         NSLayoutConstraint.activateConstraints([

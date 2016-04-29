@@ -10,7 +10,7 @@ import UIKit
 
 // MARK: Application Constants
 let kPlaylistFreeLimit = 3
-let kPlaylistPaidLimit = 6
+let kPlaylistPaidLimit = 100
 let kPlaylistPaidLimitPurchasedKey = "PlaylistIncreasedLimitPurchased"
 
 // MARK: - Authorization Flow Keys
@@ -36,6 +36,11 @@ let kDeepLinkLogoutURI = NSURL(string:  "\(kAppScheme)logout")!
 let kDeepLinkEditURI = NSURL(string: "\(kAppScheme)/edit")!
 let kValidDeepLinks = [kDeepLinkRedirectURI, kDeepLinkLogoutURI, kDeepLinkEditURI]
 
+// MARK: - External URLs
+let kAppStoreRatingsURL = NSURL(string: "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=552035781&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software")!
+let kMediumURL = NSURL(string: "medium://user/@shanselman/chatting-with-prince-on-aol-in-1999-23bb540fc47#.910nl6iuc")!
+let kMediumFallbackURL = NSURL(string: "https://medium.com/@shanselman/chatting-with-prince-on-aol-in-1999-23bb540fc47#.mf9cj6myd")!
+let kAppsidianURL = NSURL(string: "http://www.appsidian.com")!
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------------------------------------

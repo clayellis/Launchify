@@ -35,7 +35,7 @@ class LoadingView: UIView {
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(loadingLabel)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse([loadingLabel])
         
         // Add Constraints
         loadingLabel.fillSuperview()

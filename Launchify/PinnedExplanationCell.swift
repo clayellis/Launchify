@@ -54,7 +54,7 @@ class PinnedExplanationCell: UITableViewCell {
     }
     
     func configureLayout() {
-        setTranslatesAutoresizingMaskIntoConstraintsToFalse(explanationLabel)
+        setTranslatesAutoresizingMaskIntoConstraintsToFalse([explanationLabel])
         
         // Add Constraints
         explanationLabel.fillSuperview()
